@@ -16,7 +16,7 @@ timezone:
 
 title: Felipe Aníbal # the main title
 
-tagline: Blog sobre a disciplina MAC0470 - Introdução ao desenvolvimento de Software Livre # it will display as the sub-title
+tagline: Blog sobre a disciplina MAC0470 # it will display as the sub-title
 
 description: >- # used by seo meta and the atom feed
   Blog sobre a disciplina MAC0470 - Introdução ao desenvolvimento de Software Livre
@@ -35,6 +35,7 @@ social:
   email: felipeanibal@usp.br # change to your email address
   links:
     # The first element serves as the copyright owner's link
+    - https://twitter.com/felipeanibal # change to your twitter homepage
     - https://github.com/felipeanibal # change to your github homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
@@ -62,7 +63,7 @@ goatcounter:
 #     light  - Use the light color scheme
 #     dark   - Use the dark color scheme
 #
-theme_mode: light # [light | dark]
+theme_mode: # [light | dark]
 
 # The CDN endpoint for images.
 # Notice that once it is assigned, the CDN url
