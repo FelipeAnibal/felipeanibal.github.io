@@ -4,5 +4,5 @@ icon: fas fa-info-circle
 order: 4
 ---
 
-> Add Markdown syntax content to file `_tabs/about.md`{: .filepath } and it will show up on this page.
+> Essa página foi feita para registrar o progresso na disciplina MAC0470 - Introdução ao Desenvolvimento de Software Livre, ministrada na USP.
 {: .prompt-tip }
