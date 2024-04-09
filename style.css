@@ -1,4 +1,4 @@
-.montserrta-regular {
+.libre-baskerville-regular {
     font-family: "Libre Baskerville", serif;
     font-weight: 400;
     font-style: normal;
@@ -13,13 +13,13 @@
     word-spacing: 0.3rem;
   }
   
-  .montserrta-bold {
+  .libre-baskerville-bold {
     font-family: "Montserrat", serif;
     font-weight: 700;
     font-style: normal;
   }
   
-  .montserrta-regular-italic {
+  .libre-baskerville-regular-italic {
     font-family: "Libre Baskerville", serif;
     font-weight: 400;
     font-style: italic;
