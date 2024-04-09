@@ -1,11 +1,15 @@
-.libre-baskerville-regular {
-    font-family: "Libre Baskerville", serif;
+body{
+    color: #444;
+}
+
+.montserrat-regular {
+    font-family: "Montserrat", sans-serif;
     font-weight: 400;
     font-style: normal;
   }
 
   .bv{
-    font-family: "Libre Baskerville", serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: 300;
     font-style: normal;
     font-size: 0.9rem;
@@ -13,14 +17,14 @@
     word-spacing: 0.3rem;
   }
   
-  .libre-baskerville-bold {
-    font-family: "Libre Baskerville", serif;
+  .montserrat-bold {
+    font-family: "Montserrat", sans-serif;
     font-weight: 700;
     font-style: normal;
   }
   
-  .libre-baskerville-regular-italic {
-    font-family: "Libre Baskerville", serif;
+  .montserrat-regular-italic {
+    font-family: "Montserrat", sans-serif;
     font-weight: 400;
     font-style: italic;
   }
