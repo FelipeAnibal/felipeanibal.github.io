@@ -23,13 +23,13 @@
                     Setting up the environment
                 </h1>
                 <p class="bv mt-3 pt-3">
-                    All Linux operating systems (OS) use the linux Kernel, including the Linux Fedora running on my own computer. If we are going to make changes to the kernel we must have a way to test them and make sure they didn’t break the system. But in case they do break the system, we don’t want it to be our own system that gets broken. So how can we make changes to the Kernel and test them without risking our own operating system? We use virtual machines!
+                    All Linux operating systems (OS) use the linux Kernel, including the Linux Fedora running on my own computer as I write this. If we are going to make changes to the kernel we must have a way to test our changes while making sure they don't break our system. How can we make changes to the Kernel and test them without risking our own operating system? We use virtual machines!
                 </p>
                 <h2>
                     Virtual Machines
                 </h2>
                 <p class="bv mt-3">
-                    The first step for contributing to the kernel was learning about virtual machines and how to set them up. Virtual machines (VM) simulate a computer running inside our own computer. It creates an isolated environment where we can simulate differente operating systems, file systems and even different hardware architectures, on our own computer. This allows for a myriad of possibilities! In our case, it allows us to run a linux based OS, and change it to use our modified Kernel. If something breaks along the away, no problem, just erase the broken VM and start another one.
+                    The first step to contribute to the kernel was learning about virtual machines and how to set them up. Virtual machines (VM) simulate a computer running inside another computer. It creates an isolated environment where we can simulate different operating systems, file systems and even different hardware architectures. This allows us to run a linux based OS, and change it to use our modified Kernel. If something breaks along the away, we can delete the broken machine and start another one.
                 </p>
                 <p class="bv mt-3">
                     In order to setup a virtual machine, we followed <a class="link-opacity-100" href="https://flusp.ime.usp.br/kernel/qemu-libvirt-setup/"> the tutorial made by FLUSP</a>. Most of the process was straight-forward. The only difference is that I used portforwarding to setup the SSH connection to the VM.

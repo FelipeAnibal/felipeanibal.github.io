@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kworkflow</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row mt-5 justify-content-center">
+            <div class="col-md-10 px-5 py-5">
+                <h1 class="montserrat-bold pt-5">
+                    Contributing to Kworkflow
+                </h1>
+                <p class="bv mt-3 pt-3">
+                   In the previous post I shared some of the challenges we faced while contributing to the linux Kernel. Before coding we had a lot of work to do setting up the proper environment to build the Kernel. That involved launching virtual machines, writing configuration files and running many series of commands to build the modules. After changing the code and building the Kernel, we still had work to do formatting the patch and writing the email to submit to the subsystem mainteiners. It turns out that much of the work we did manually can be done automatically with bash scripts. When building new versions of the Kernel is something you do regularly these scripts can be extremely useful. In fact, many of the Kernel developers that we met during the classes showed us some of their own scripts.
+                </p>
+                <p class="bv mt-3 pt-3">
+                    Having noticed the usefulness of such scripts, Rodrigo Siqueira (former student at USP) began Kworkflow or simply KW, a open source software to help kernel developers in the process of developing the linux kernel.
+                 </p>
+                 <p class="bv mt-3 pt-3">
+                    In this post I describe how Otávio Silva and I made a contribution to the KW.
+                 </p>
+                <h2>
+                    Chosing a Issue.
+                </h2>
+                <p class="bv mt-3">
+                    When contributing to open source software the first step is always to understand the software. We did that by installing KW and using it to acomplish some of the tasks we had done manually before. After learning the basic workflow and the commands, we began looking for an open issue at the projects git repository to contribute to. That was a challenging part since the project maintainers do not have the practice of closing issues. That meant we had to look at dozens of open issues and check one by one to see which ones were indeed open, and which ones should have been closed already. Thankfully we had access to some of the project maintainers and directly talked to then to find an issue we could work on. We choose to implement a simple new feature to the drm comand.
+                </p>
+                <h2>
+                    DRM subsystem
+                </h2>
+                <p class="bv mt-3">
+                    The drm subsystem (Direct Rendering Manager) is responsible for intefacing with GPU video cards. KW has a series of comands to help specificaly with the development of this subsystems. One such comand is kw drm --conn-available. This lists all connectors available in the target machine. The feature we chose to implement was to make that command more informative and not only list the available connectors but also show which ones were currently being used.
+                </p>
+                <h2>
+                    Making a pull request
+                </h2>
+                <p class="bv mt-3">
+                    The change itself was simple. We changed the code to access the sys/class/drm directory for each connector and check under the "enabled" file to see if it was enabled. We then printed an asterisk after the name of the enabled connector. Besides the change to the command itself we updated the documentation and the tests to reflect the changes to the command. We ran the integration and unit tests and finally submitted the code with a pull request to the kw repository.
+                </p>
+                <h2>
+                    Reviewing and updating the pull request
+                </h2>
+                <p class="bv mt-3">
+                    Our pull request passed through 5 reviews and had to be updated and sent again 5 times. In those reviews we ended up updating the coding style for the whole file, we optimized the way we searched for the "enabled" files for each card, and we implemented a slight change in the way the names of the connectors were displayed (to make the command even more informative). The whole process took a few weeks, but it pushed us to learn a lot as we got more familiar with git and github and learned to make our code more maintainable (adding comments, refactoring the tests and following the proper coding style). After 5 reviews our code was pull request was accepted and our code merged with the official repository.
+                </p>
+                <h2>
+                    Conclusion
+                </h2>
+                <p class="bv mt-3">
+                    This was my first experience contributing to an open source software other than the Kernel. It was a very good oportunity to see in practice what strategies can make the code more maintainable, like a good documentation, descriptive comments explaining coding choices and following a clean code style. It also should us somethings that make a open source project easier to contribute, like an active community and organized issue tracking (something that this project could perhaps improve for the future!). The maintainers were very patient and helped us a lot with the reviews and suggestions. Overall our contribution was small, nonetheless it was very rewarding to contribute to something that may be used by hundreds of people in the future! Hope we can apply the things we learned here in future projects.
+                </p>
+            </div>
+        </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
