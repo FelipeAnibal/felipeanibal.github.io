@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Overview and highlights of MAC0470</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row mt-5 justify-content-center">
+            <div class="col-md-10 px-5 py-5">
+                <h1 class="montserrat-bold pt-5">
+                    Overview and highlights of MAC0470 - Introdução ao Desenvolvimento de software livre 
+                </h1>
+                <h2>
+                    The Linux Kernel
+                </h2>
+                <p class="bv mt-3 pt-3">
+                    We started the semester working on the linux kernel. This was by far the project with the greatest learning curve. Before contributing we spent a few weeks understanding how the kernel was structured with its many subsystens, learning about a complex contribution workflow (with different trees and cycles) and setting up the environment with virtual machines to build and deploy the kernel. Once we made our contribution we still spent sometime learning how to send the patch to the correct maintainers and how to check for updates and replies. It was a lot to learn, but it was definetly worth it. Once we sent a contribution to the kernel, every other project seemed more tangible. It gave us confidence to take on other projects afterwards.
+                </p>
+                <p class="bv">
+                    Our patch implemented a correction in the representation of negative numbers in the driver ltc2309. The driver was not correctly using the 2's complent form for binary numbers, so we corrected that. However we realized that although the driver's reference sheet mentioned negative, the part of the driver that used them (called bipolar mode) was not implemented. In order to fix that we would have to write from scratch a new operating mode for the driver. That was beyond our knowledge and would take us a lot of time, so we mentioned the problem in the lore, but decided not to work on that.
+                </p>
+
+                <h2>
+                    Kworkflow
+                </h2>
+
+                <p>
+                    As a second project we decided to work on KW, a project to help reduce the overhead when contributing to the kernel. We looked through the issues and decided to work on improving the display of a function in the drm module. The contribution process for this project was a lot easier. Instead of sending a patch through email, we forked the project on github, made the necessary changes and sent a pull-request. After receiving feedback from the maintainers, we updated the PR a few times and our contribution was merged! 
+                </p>
+
+                <h2>
+                    Debian Packaging
+                </h2>
+
+                <p>
+                    After contributing to KW we participated in a workshop about Debian Packaging with Debian developer Joênio Marques. We learned how to make and maintain Debian packages and followed his tutorial to make a dummy package. As an exercise we tried to make another package and this time officially send it upstream. Unfortunately the package we chose had many dependencies that were also not packaged, so the project grew bigger than we expected and we had to drop it as it ran out of the scope of the discipline. 
+                </p>
+
+                <h2>
+                    Gnome-Calendar
+                </h2>
+
+                <p>
+                    For the final project we decided to work on a software that we use daily. We decided to contribute to gnome. We looked through the projects inside of gnome and through the open issues in each project and decided to work on the gnome-calendar. We were truly amazed with gnome's contribution workflow. It was by far the on with the least overhead. Gnome offers a builder that works as an IDE and allows us to edit the code and test it immediatly with no need for virtual machines or containers. It made the process easy and allowed us to focus on understanding the code and engineering our contributions.
+                </p>
+
+                <p>
+                    First we chose a newcomers issue which was great to get more used to the code structure. We have sent a merge request, and we're waiting for a feedback. Meanwhile we chose a second and more challengin issue and made a suggestion that might fix it, but we're waiting for a confirmation before writing the code.
+                </p>
+
+                <h2>
+                    Conclusion
+                </h2>
+
+                <p>
+                    Overall the discipline was great! We had the chance to work real-world large projects that are used daily by thousands of people worldwide. We gained confidence to work on open source projects, to understand and propose changes to large software and we practiced the use of day-today tools like git, github and gitlab. We also saw firsthand the importance of clean code, good documentation, tests and an active community, to the long term maintainance of code and to the cooperation of multiple people on the same project. I hope to contribute to more open source software after this discipline.
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
