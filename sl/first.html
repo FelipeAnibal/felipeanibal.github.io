@@ -27,13 +27,13 @@
                     <p class="text-muted mb-1">Last updated on June 26, 2024</p>
                 </div>
                 <p class="bv mt-3 pt-3">
-                    With the proper environment set up, me and Otávio Silva were ready for our first contribution to the Linux Kernel. Professor Paulo Meirelles gathered with Marcelo Schmdit (former IME student that now works with IIO drivers at Analog) and made a list of suggestions of drivers that we could contribute to and of possible improvements to the code. The suggestions involved choosing a driver and applying a correction (or improvement) that was already applied elsewhere. Marcelo ranked the suggestions in order of difficulty. We studied them all, and decided to give it a try at the hardest one. (As you will see in a moment, maybe we were overly confident).
+                    With the proper environment set up, me and <span class="highlight-green"><a href="https://otavioolsilva.github.io/">Otávio Silva</a></span> were ready for our first contribution to the Linux Kernel. Professor Paulo Meirelles gathered with Marcelo Schmitt (former IME student that now works with IIO drivers at Analog) and made a list of suggestions of drivers that we could contribute to and of possible improvements to the code. The suggestions involved choosing a driver and applying a correction (or improvement) that was already applied elsewhere. Marcelo ranked the suggestions in order of difficulty. We studied them all, and decided to give it a try at the hardest one. (As you will see in a moment, maybe we were overly confident).
                 </p>
                 <h2>
                     The Patch
                 </h2>
                 <p class="bv mt-3">
-                    The correction we set out to do involved changing the output of the driver LTC2309, a 12-bit ADC (analog to digital converter). This device converts an analog input into a digital signal. The output is in the form of a 12-bit binary number. Marcelo identified that in some similar devices the output of negative numbers was not always properly represented in 2’s complement form. That means that the negative numbers were not properly indicated to the user. To fix that, some patchs to other drivers used the function sign_extend32() to correct the position of the sign-bit. Our idea was to implement a simliar change but on the driver we were working on.
+                    The correction we set out to do involved changing the output of the driver LTC2309, a 12-bit ADC (analog to digital converter). This device converts an analog input into a digital signal. The output is in the form of a 12-bit binary number. <span class="highlight-green">Marcelo identified that in some similar devices the output of negative numbers was not always properly represented in 2’s complement form. That means that the negative numbers were not properly displayed to the user. To fix that, some patchs to other drivers used the function sign_extend32() to correct the position of the sign-bit. Our idea was to implement a simliar change but on the driver we were working on. </span>
                 </p>
                 <p class="bv mt-3">
                     
@@ -44,16 +44,14 @@
                     The patch reply
                 </h2>
                 <p>
-                    The mantainers were very quick to respond to our patch! But the response was not exactaly what we expected: the mantainers rejected our patch! They warned us that the LTC2309 ADC has to modes of opperation: single-ended mode and differential mode. We did read about that in the documentation before making our patch, but what we didn’t realize is that the single-ended mode does not deal with negative numbers. That means that our patch is not necessary when the device is operating in that mode. In order for our patch to be correct, we must first check which mode the device is using and then decide wheter we need to make the extension or not. If it is in differential mode, than we must apply the extension indeed, but if it is in single-ended mode, than the extension is not necessary.
+                    The mantainers were very quick to respond to our patch! But the response was not exactly what we expected: <span class="highlight-green">our first patch was rejected! The maintainers made us some importante questions that lead us to further study the driver. It turns out that the LTC2309 ADC has to modes of opperation: single-ended mode and differential mode. However, the unipolar mode does not use negative numbers, and what we discovered is that the bipolar mode (the one that uses negative numbers) was not implemented in the driver!</span> In order for our patch to be accepted, we would have to implement the bipolar mode from scratch. That was no trivial task! Since this was our fisrt time contributing to the kernel and we had other projects to work on for the rest of the discipline, we reported our descoveries but decided not to continue.
                 </p>
-                <p>
-                    We now have to correct our patch and send a new version of it!
-                </p>
+
                 <h2>
                     Conclusion
                 </h2>
                 <p>
-                    Before making our contribution to the Kernel, we did learn about drivers with the FLUSP tutorials. But we still have a lot to learn! We decided to be more carefull before sending the next patch and our plan is to talk to someone who understands more of the drivers then we do. We have reached out to Marcelo Schmidt in hopes to better understand the driver code before making the next patch. Thankfuflly the mantainer that responded us was very patitent and respectful! We hope that the next patch will be better!
+                    Unfortunately our contribution was not accepted, but we learned a lot with the process! <span class="highlight-green">We learned how to set up the environment for the Kernel, we gained a in depth understanding of drivers and modules, and we learned how to send a patch to the Kernel. We also learned hands-on how the kernel is implemented. I hope that in the future we can look at the Kernel again and make another contribution! </span>
                 </p>
             </div>
         </div>
