@@ -20,14 +20,69 @@
         <div class="row mt-5 justify-content-center">
             <div class="col-md-10 px-5 py-5">
                 <h1 class="montserrat-bold pt-5">
-                    Gnome-Calendar
+                    Gnome-Calendar 
                 </h1>
-                <p class="bv mt-3 pt-3">
-                   Gnome is one of the most widely used graphical interface for linux. This is the project me and Otávio Silva have chosen to work on for the final part of the course.
-                </p>
-                <h2>
-                    Understanding the project
+                <div class="blog-info">
+                    <p class="text-muted mb-1">Posted on June 26, 2024 by Felipe Aníbal</p>
+                    <p class="text-muted mb-1">Last updated on June 26, 2024</p>
+                </div>
+                <h2 class="montserrat-bold mt-5">
+                    Introduction
                 </h2>
+                <p>
+                    In the last blog post about gnome I mentioned that me and <span class="highlight-green"><a href="https://otavioolsilva.github.io/">Otávio Silva</a> </span>chose to work on GNOME as the final project for the discipline MAC0470 (Introduction to the development of free software). More specifically we chose to work on GNOME-calendar. In this post I share the issues we chose and the steps followed for our contribution.
+                </p>
+
+                <h2 class="montserrat-bold pt-5">
+                    GNOME Contribution Workflow
+                </h2>
+                <p>
+                    GNOME has a friendly Contribution workflow. One of the things that caught our attention as we decided which project to work on in last part of the semester was how <span class="highlight-green">the contribution process for gnome was well documented</span>. Their <a href="https://welcome.gnome.org/pt-BR/">welcome page</a> shows the projects they have available and describe in detail the steps to make a contribution. In addition, each project has some guidelines to help. <span class="highlight-green"> GNOME-calendar, for example, asks us to choose an issue to work on (or create a new issue), describe how we plan to fix the issue, and only then send the Merge Request. </span>
+                </p>
+                <p>
+                    Once we had chosen the issues, something else caught our attention. Our first idea was to set up a virtual machine, install the necessary dependencies and only then build and run the calendar app inside the VM. Like in the Kernel contribution, that would allow us to create a separate environment to test our app without crashing our own calendar. However with gnome none of that was necessary. In the guidelines for a contribution they advise the contributors to use gnome builder. <span class="highlight-green">Gnome builder is an IDE, that not only allows us to easily clone the project repository, but also installs its dependencies and allows us to build a mock of the app that is already separate from the app in our computer. That made the contribution process a lot easier! Instead of spending hours setting up the proper environment we could spend our time looking through the issues and thinking about the solutions. </span> This was definetly the project with the easiest workflow that we worked on.
+                </p>
+
+                <h2 class="montserrat-bold pt-5">
+                    First Issue
+                </h2>
+                <p class="bv mt-3 pt-3">
+                   Since this was our first time contributing to GNOME we decided to start with a "newcomers" issue. That would allow us to explore the code and learn how it was structured, giving us confidence to work on a more complex issue later. <span class="highlight-green">This first issue we chose involved changing the display of links in the tooltips of the calendar. </span>
+                </p>
+                <p class="bv pt-3">
+                   The tooltips are the text-boxes that appear next to the mouse pointer when you hover over an event on the calendar. They are <span class="highlight-green">used to show concise information on a given event</span>, like the time and the location of the event. If you want to see more information, you can click on the event and a popover appears with more details. A nice behaviour implemented in the popover is to simplify the display of online meeting services. For example, if a meeting is schedule at google meet and has the following link: "https://meet.google.com/aaa-aaaa-aaa", the popover has code that parses the url, recognises that the meeting is at google meet and of shows the name "Google Meet" together with a button to join the meeting. 
+                </p>
+
+                <figure class="image-container">
+                    <img src="imgs/popover.png" alt="Example of popover">
+                    <figcaption>Example of calendar event popover</figcaption>
+                </figure>
+
+                
+                <p class="bv pt-3">
+                   On the tooltip however, only the full link of the meeting would be shown. That is not ideal, because tooltips are not clickable, and some meeting services have very long urls. <span class="highlight-green">So instead of showing useful concise information, the tooltips can get long and confusing. The issue we worked on, proposed a solution this problem. In the tooltips with online meeting links, instead of showing long urls, we could show only the meeting provider.</span>
+                </p>
+
+                <figure class="image-container">
+                    <img src="imgs/tooltip.png" alt="Example of tooltip with long link">
+                    <figcaption>Example of tooltip with long link</figcaption>
+                </figure>
+
+                <p class="bv pt-3">
+                    In order to implement that, we thought about using the same parsing function that is already implemented on the popover, and parse the urls in the tooltips. That way, <span class="highlight-green">if the meeting location is a known meeting service, we show the name of the service, instead of the full link. If the meeting is not on a known service, we limit the length of the url, to make the tooltip more smaller. And if the location of the meeting was not a link but an actual address, we would show the full address, which can be useful (unlike a unclickable link).</span>
+                </p>
+
+                <p class="bv pt-3">
+                    Following the gnome-calendar guidelines we wrote our proposal in the issue discussion on gitlab and waited for a response. Jeff Fortin one of the maintainers of the calendar replied to our solution, gave us some suggestions and tagged other maintainers to verify it. However only one of the other maintainers repplied. That made us unsure wether we should submit a merge request or wait for their repply. We decided to write the code, make it ready to submit and work on another issue while we waited for a response. That is were we are so far.
+                </p>
+
+                <h2 class="montserrat-bold pt-5">
+                    Second Issue
+                </h2>
+
+                <p class="bv pt-3">
+                    while we waited for a reply on our first issue we chose to work on another one. This time we decided to implement tests on gnome-calendar. More on that soon.
+                </p>
 
             </div>
         </div>
