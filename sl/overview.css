@@ -112,3 +112,11 @@ a:hover {
     color: #0056b3; /* Darker color on hover */
     border-color: #0056b3; /* Darker border color on hover */
 }
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+
+    .container {
+      padding: 0px;
+    }
+  }

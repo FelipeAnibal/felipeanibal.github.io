@@ -174,3 +174,26 @@ footer {
 .blog-info p {
   margin-bottom: 5px;
 }
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  body {
+    padding: 5px;
+  }
+
+  .container {
+    padding: 5px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2 {
+    font-size: 1.75em;
+  }
+  
+  h3 {
+    font-size: 1.5em;
+  }
+}
