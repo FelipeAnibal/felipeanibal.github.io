@@ -33,7 +33,7 @@
                     The Patch
                 </h2>
                 <p class="bv mt-3">
-                    The correction we set out to do involved changing the output of the driver LTC2309, a 12-bit ADC (analog to digital converter). This device converts an analog input into a digital signal. The output is in the form of a 12-bit binary number. <span class="highlight-green">Marcelo identified that in some similar devices the output of negative numbers was not always properly represented in 2’s complement form. That means that the negative numbers were not properly displayed to the user. To fix that, some patchs to other drivers used the function sign_extend32() to correct the position of the sign-bit. Our idea was to implement a simliar change but on the driver we were working on. </span>
+                    The correction we set out to do involved changing the output of the driver LTC2309, a 12-bit ADC (analog to digital converter). This device converts an analog input into a digital signal. The output is in the form of a 12-bit binary number. <span class="highlight-green">Marcelo identified that in some similar devices the output of negative numbers was not always properly represented in 2’s complement form. That means that the negative numbers were not properly displayed to the user. To fix that, some patches to other drivers used the function sign_extend32() to correct the position of the sign-bit. Our idea was to implement a similar change but on the driver we were working on. </span>
                 </p>
                 <p class="bv mt-3">
                     
@@ -44,7 +44,7 @@
                     The patch reply
                 </h2>
                 <p>
-                    The mantainers were very quick to respond to our patch! But the response was not exactly what we expected: <span class="highlight-green">our first patch was rejected! The maintainers made us some importante questions that lead us to further study the driver. It turns out that the LTC2309 ADC has to modes of opperation: single-ended mode and differential mode. However, the unipolar mode does not use negative numbers, and what we discovered is that the bipolar mode (the one that uses negative numbers) was not implemented in the driver!</span> In order for our patch to be accepted, we would have to implement the bipolar mode from scratch. That was no trivial task! Since this was our fisrt time contributing to the kernel and we had other projects to work on for the rest of the discipline, we reported our descoveries but decided not to continue.
+                    The maintainers were very quick to respond to our patch! But the response was not exactly what we expected: <span class="highlight-green">our first patch was rejected! The maintainers made some important questions that lead us to further study the driver. It turns out that the LTC2309 ADC has to modes of operation: single-ended mode and differential mode. However, the unipolar mode does not use negative numbers, and what we discovered is that the bipolar mode (the one that uses negative numbers) was not implemented in the driver!</span> In order for our patch to be accepted, we would have to implement the bipolar mode from scratch. That was no trivial task! Since this was our first time contributing to the kernel and we had other projects to work on for the rest of the discipline, we reported our discoveries but decided not to continue.
                 </p>
 
                 <h2>
