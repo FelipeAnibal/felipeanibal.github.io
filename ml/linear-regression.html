@@ -13,6 +13,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@700;800&display=swap"
         rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
@@ -37,59 +38,91 @@
                         before attempting more sophisticated algorithms.</span>
                 </p>
                 <h2>
-                    Step 0: Gaining intuition
+                    Gaining intuition
                 </h2>
                 <p class="bv mt-3">
                     Imagine we have information about the number of people that visited a given store in São Paulo and
                     the total sales at that store in 9 different months. Imagine the information is as follows:
                 </p>
                 <div>
-                    <canvas id="myChart" height="200px"></canvas>
+                    <canvas id="myChart" height="175px"></canvas>
                 </div>
 
                 <p class="bv mt-3">
-                    If the owner of that store wanted to estimate the number of sales on a given month based on the number of people that visited the store, one strategy would be to use a 'trendline' to estimate the sales. A trendline is line that captures the "trend" in the data, that is, a line that approximates the data. On example is given bellow:
+                    If the owner of that store wanted to estimate the number of sales on a given month based on the
+                    number of people that visited the store, one strategy would be to use a 'trendline' to estimate the
+                    sales. A trendline is line that captures the "trend" in the data, that is, a line that approximates
+                    the data. On example is given bellow:
                 </p>
 
                 <div>
-                    <canvas id="2nd-chart" height="200px"></canvas>
+                    <canvas id="2nd-chart" height="175px"></canvas>
                 </div>
 
                 <p class="mt-3">
-                    With that line the owner of the store can predict that if 20 people visit the store, the sales will be around $1000, and if 120 people visit the store, the sales will be around $5050.
-                </p>
-                    
-                <p>
-                    The challenge we face is that many lines can be said to approximate the data above. How can we chose the best one? As with any approximation, the line we choose will lead to errors. A natural idea is to choose the line that minimizes the sum of the errors in each point. That is precisely what we will do.
-                </p>
-                <p>
-                    <span class="highlight-blue">We can measure the error we make in a given estimation by taking the difference from our prediction (the line) to the point in the dataset</span>. That will give us the error we make at each point. Our model, for instance, tells us that if 100 people visit the store, the sales will be around $4100, while the data shows that sales were of $5500. The error we made with that estimate was of $1400. To get the total error we sum the errors at each point.
+                    With that line the owner of the store can predict that if 20 people visit the store, the sales will
+                    be around $1000, and if 120 people visit the store, the sales will be around $5050.
                 </p>
 
                 <p>
-                    Since some points are above the line and some are bellow, we would have positive and negative numbers that could cancel out. To prevent that, a good strategy is to take the square of theses differences. Taking that into account, we can say the total error we make with a given line is <span class="math">\(\sum_{i=1}^n (f(x_i) - y_i)^2 \)</span>, where \(y_i\) is the y-cordinate of the data-point and \(f(x_i)\) is our prediction. <span class="highlight-blue">We will consider the best line, the one that reduces this error. This strategy is called least squares.</span> When using this strategy it is computationally useful to divide the whole equation by N, the number of data-points we are considering. This then becames the "mean squared error", and we avoid operations with big numbers.
+                    The challenge we face is that many lines can be said to approximate the data above. How can we chose
+                    the best one? As with any approximation, the line we choose will lead to errors. A natural idea is
+                    to choose the line that minimizes the sum of the errors in each point. That is precisely what we
+                    will do.
+                </p>
+                <p>
+                    <span class="highlight-blue">We can measure the error we make in a given estimation by taking the
+                        difference from our prediction (the line) to the point in the dataset</span>. That will give us
+                    the error we make at each point. Our model, for instance, tells us that if 100 people visit the
+                    store, the sales will be around $4100, while the data shows that sales were of $5500. The error we
+                    made with that estimate was of $1400. To get the total error we sum the errors at each point.
+                </p>
+
+                <p>
+                    Since some points are above the line and some are bellow, we would have positive and negative
+                    numbers that could cancel out. To prevent that, a good strategy is to take the square of theses
+                    differences. Taking that into account, we can say the total error we make with a given line is <span
+                        class="math">\(\sum_{i=1}^n (f(x_i) - y_i)^2 \)</span>, where \(y_i\) is the y-coordinate of the
+                    data-point and \(f(x_i)\) is our prediction. <span class="highlight-blue">We will consider the best
+                        line, the one that reduces this error. This strategy is called least squares.</span> When using
+                    this strategy it is computationally useful to divide the whole equation by N, the number of
+                    data-points we are considering. This then becomes the "mean squared error", and we avoid operations
+                    with big numbers.
                 </p>
                 <p class="math">
                     $$E = \frac{1}{N} \sum_{i=0}^n \left( f(x_i) - y_i \right)^2$$
-                </p> 
+                </p>
                 <p>
                     The line we get by minimizing this error function is our linear-regression line.
                 </p>
 
                 <h2>
-                    Step 1: Finding the best "line" - Analytical Solution
+                    Analytical Solution
                 </h2>
 
                 <p>
-                    In the example above, the function f can be represented by a line. But real-world applications often involve much more than two dimensions. The total sales from a given store, for instance, is not only a function of the number of people that visited the store - there are many other variables to take into account. Let's see how we can find a linear function that minimizes the error in a more general scenario.
+                    In the example above, the function f can be represented by a line. But real-world applications often
+                    involve much more than two dimensions. The total sales from a given store, for instance, is not only
+                    a function of the number of people that visited the store - there are many other variables to take
+                    into account. Let's see how we can find a linear function that minimizes the error in a more general
+                    scenario.
                 </p>
 
                 <p class="math">
-                    The line of best-fit in the example we saw, can be modeled as <span class="math">\(y = f(x) = w_1x + w_0 \), where \(w_0\) and \(w_1\)</span> are constants. The task of finding the best-fit line can be rephrased to finding \(w_0\) and \(w_1\) that minimize the error function. <span class="highlight-blue">If we had more variables, our best-fit function would look like <span class="math">\(y = f(x) = w_nx_n + w_{n-1}x_{n-1} \dots + w_0 \)</span>, where \(w_i\) can be interpreted as the weight of the variables \(x_i\) in the prediction.</span> In other words, \(w\) represents the influence of \(x_i\) in the prediction \( y \).
+                    The line of best-fit in the example we saw, can be modeled as <span class="math">\(y = f(x) = w_1x +
+                        w_0 \), where \(w_0\) and \(w_1\)</span> are constants. The task of finding the best-fit line
+                    can be rephrased to finding \(w_0\) and \(w_1\) that minimize the error function. <span
+                        class="highlight-blue">If we had more variables, our best-fit function would look like <span
+                            class="math">\(y = f(x) = w_nx_n + w_{n-1}x_{n-1} \dots + w_0 \)</span>, where \(w_i\) can
+                        be interpreted as the weight of the variables \(x_i\) in the prediction.</span> In other words,
+                    \(w\) represents the influence of \(x_i\) in the prediction \( y \).
                 </p>
 
                 <p>
-                    To simplify our notation we can rewrite this in the vector/matrix form as \(\bf{w}^Tx\), where \(\bf{w}\) is called the weight vector, and \(\bf{x}\) represents the observations we make. Using this notation we can rewrite our error function as $$E(\bf{w}) = \frac{1}{N} \sum_{i=0}^n \left( \bf{w}^Tx_i - y_i \right)^2$$ To further simplify the math we will consider the vector of errors (scroll left to see the all the steps):
+                    To simplify our notation it would be useful to rewrite this in the vector/matrix form as \(\bf{w}^Tx\), where
+                    \(\bf{w}\) is called the weight vector, and \(\bf{x}\) represents the observations we make. Notice, however that \(w\) has 1 dimensions more than \(x\), because of the constant \(w_0\). To deal with that, we will add 1 dimension to \(x\) and consider \(x_0 = 1\). Using this notation we can rewrite our error function as $$E(\bf{w}) = \frac{1}{N} \sum_{i=0}^n \left( \bf{w}^Tx_i - y_i \right)^2$$
+                                        
+                    To further simplify the math we will consider the vector of errors (scroll left to see the all the steps):
                 </p>
                 <p class="math">
                     $$
@@ -108,7 +141,7 @@
                     \dots \\
                     \bf{w}^T x_N \\
                     \end{bmatrix}
-                    
+
                     -
 
                     \begin{bmatrix}
@@ -140,12 +173,12 @@
 
                     - y
 
-                    = 
+                    =
 
                     \begin{bmatrix}
                     1 & x_{11} & \dots & x{1d}\\
                     1 & x_{21} & \dots & x{2d}\\
-                    &        & \dots &      \\
+                    & & \dots & \\
                     1 & x_{N1} & \dots & x{Nd}\\
                     \end{bmatrix}
                     \begin{bmatrix}
@@ -154,7 +187,7 @@
                     \dots\\
                     w_n\\
                     \end{bmatrix}
-                    
+
                     - y
 
                     = \bf{Xw} - y
@@ -170,20 +203,159 @@
                 <p>$$X^TXw = X^Ty$$</p>
                 <p class="text-center"><span class="highlight-blue">\(w = (X^TX)^{-1}X^Ty\)</span></p>
 
-                <p> <span class="highlight-blue">With that, we have the function \(f(x) = \bf{w}^Tx\) that minimizes the error!</span></p>
+                <p> <span class="highlight-blue">With that, we have the function \(f(x) = \bf{w}^Tx\) that minimizes the
+                        error!</span></p>
 
                 <h2>
-                    Step 2: Finding the best "line" - Iterative Solution
+                    Iterative Solution
                 </h2>
 
                 <p>
-                    The solution we found above is called the analytical or closed-form solution. That give us exact values for the weights we wanted to calculate. That solution, however requires calculating a matrix inverse, which is computationally expensive (an operation of cubic order to be specific). <span class="highlight-blue">That means that finding an analytical solution can be very time-consuming and even impossible for large enough vectors. Gladly, we can use another strategy called gradient descent to calculate the weights.</span>
+                    The solution we found above is called the analytical or closed-form solution. That give us exact
+                    values for the weights we wanted to calculate. That solution, however requires calculating a matrix
+                    inverse, which is computationally expensive (an operation of cubic order to be specific). <span
+                        class="highlight-blue">That means that finding an analytical solution can be very time-consuming
+                        and even impossible for large enough vectors. Gladly, we can use another strategy called
+                        gradient descent to calculate the weights.</span>
                 </p>
-                <p>
-                    Gradient descent deserves its own blog post (hopefully coming soon!). It is a widely used technic in many machine learning algorithms. In this post however we will see a quick explanation and a direct application of gradient descent.
 
-                    (to be continued.)
+                <h3> A powerful solution: The idea behind gradient descent</h3>
+                <p>
+                    Gradient descent deserves its own blog post (hopefully coming soon!). It is a widely used technic in
+                    many machine learning algorithms. In this post however we will see a quick explanation and a direct
+                    application of gradient descent.
                 </p>
+
+                <p>
+                    The gradient of a multivariable function calculated in a certain point is the vector that indicates
+                    the direction and the rate of fastest increase in the function value at that point. <span class="highlight-blue">What we will
+                    do in gradient descent is to start a vector \(\bf{w_0}\) with random weights, and repeatedly update
+                    this vector in the direction opposite to the gradient vector of our error function. This means we will start a point \(\bf{w_0}\) and update it generating a sequence of \(\bf{w_i}\) in the direction
+                    of fastest <i>decrease</i> of the error function. </span> Therefore, we will update \(\bf{w_i}\) in the
+                    direction that minimizes the error. That is precisely what we wanted!
+                </p>
+
+                <p>
+                    This is a powerful idea because it can be applied to other error functions. In other models such as
+                    logistic regression, we will use the same principle!
+                </p>
+
+                <h3> Calculating Gradient descent</h3>
+
+                <p>Back to our linear regression, let us calculate the gradient vector of our error function. The
+                    gradient vector is calculated as follows: </p>
+                <p class="math">
+                    $$\nabla E(\bf{w}) = \left( \frac{\partial E}{\partial w_0}, \frac{\partial E}{\partial w_1},\dots
+                    ,\frac{\partial E}{\partial w_d} \right)$$
+                </p>
+
+                <p>
+                    Remember our error function is \(E(\bf{w}) = \frac{1}{N} \sum_{i=0}^n \left( f(x_i) - y_i \right)^2
+                    \), where \(f_i\) can also be represented as \(\bf{w}^Tx_i\). So each component \(j\) of the gradient can be calculated as
+                </p>
+
+                <p class="math">
+                    $$\begin{aligned}
+                    \frac{\partial E}{\partial w_j} &= \frac{\partial} {\partial w_j} \frac{1}{N} \sum_i (f(x_i) -
+                    y_i)^2\\
+                    &= \frac{1}{N} \sum_i \frac{\partial} {\partial w_j} (f(x_i) - y_i)^2\\
+                    &= \frac{1}{N} \sum_i 2(f(x_i) - y_i) \frac{\partial}{\partial w_j} (f(x_i) - y_i)\\
+                    &= \frac{2}{N} \sum_i (f(x_i) - y_i) \frac{\partial}{\partial w_j} ((w_0 + w_1x_{i1} + \dots +
+                    w_dx_{id}) - y_i)\\
+                    &= \frac{2}{N} \sum_i (f(x_i) - y_i)x_{ij}\\
+                    &= \frac{2}{N} \sum_i (\bf{w}^Tx_i - y_i)x_{ij}
+                    \end{aligned}$$
+                </p>
+
+                <p>
+                    <span class="highlight-blue">With that, we can calculate the whole gradient vector in a matrix form  with \(\nabla E(w) = \frac{2}{N} X^T (Xw - y)\). With that we calculate the updates to the weight vector with \(\Delta w = -\nabla E(w) = - \frac{2}{N} X^T (Xw - y)\). </span>
+                </p>
+
+                <h3>
+                    The algorithm
+                </h3>
+                <p>
+                    <span class="highlight-blue">Now that we know how to calculate the gradient vector we can apply the algorithm described above. First we calculate
+                    the gradient, then we update the weights in a direction opposite to the gradient. </span>
+                </p>
+
+                <p>
+                    Notice that for the purpose of minimizing the error function we are not interested in the length of
+                    the vector, only in its direction. That means we can disconsider the constant \(2\) multiplying the vector. <span class="highlight-blue">We
+                    will instead multiply the whole vector by a small value \(\eta\), known as the <i>learning rate</i>. (More on
+                    that later!) </span>
+                </p>
+
+                <p>
+                    <span class="highlight-blue">We also need to define when to stop the algorithm. For now we will choose a number of iterations
+                    (known as the number of <i>epochs</i>) and stop the algorithm when we reach that number of
+                    iterations.</span>
+                </p>
+
+                <p> 
+                    The complete algorithm is described bellow, it uses numpy (np) and the matrix form of the equations above to simplify the code.
+                </p>
+
+                <div class="code-container">
+                    <pre>
+<code>
+<span class="comment"># Add a column of ones to X to account for the bias</span>
+X = np.insert(X, 0, 1, axis=1)
+
+<span class="comment"># Number of samples and dimensions</span>
+n_samples, d = X.shape
+
+<span class="comment"># Initialize weights</span>
+w = np.zeros(d)
+
+<span class="comment"># Define the number of iterations and the learning_rate</span>
+epochs = 10000
+learning_rate = 0.01
+
+<span class="comment"># Gradient Descent</span>
+for _ in range(epochs):
+<span class="comment"># Predict the values (apply f(X))</span>
+    y_predicted = np.dot(X, w)
+    
+    <span class="comment"># Compute the gradients</span>
+    dw = (1 / n_samples) * np.dot(X.T, (y_predicted - y))
+    
+    <span class="comment"># Update weights</span>
+    w -= learning_rate * dw
+</code>
+                    </pre>
+                </div>
+
+                <h3> A few words on the learning rate and the number of epochs</h3>
+
+                <p>
+                    In the section above we arbitrarily chose a learning rate and a number of epochs. In real world applications there are heuristics that help determine these values. In another blog post I plan to explore strategies to determine when to stop an iterative algorithm like gradient descent. For the learning rate in some cases, the best we can do is to try different values and choose the ones with the best results. But here is some intuition on what happens if the learning rate is to big or to small.
+                </p>
+
+                <p>
+                    <span class="highlight-blue">If the learning rate is to small, the algorithm will need many iterations to converge, that means more time training the algorithm (calculating the weights). But if the learning rate is to big, the algorithm might not converge!</span> The following image might help to illustrate.
+                </p>
+
+                <figure class="image-container">
+                    <img src="imgs/learningRate.png" alt="Figure to illustrate the effects of to big a learning rate">
+                    <figcaption>Figure to illustrate the effects of a big learning rate. The left represents a small learning rate, the right represents a big learning rate.</figcaption>
+                </figure>
+
+                <p>
+                    When the learning rate is too big the gradient is calculated in the right direction, but the algorithm might move far past the function minimum. This might lead the algorithm to never converge. <span class="highlight-blue">Sometimes a good approach is to start with a big learning rate and to reduce it after some iterations. This might help to move fast toward the minimum, and increase the likelihood of convergence. </span>
+                </p>
+
+                <h2>
+                    Conclusion
+                </h2>
+                <p>
+                    Linear Regression is a simple model and can be very useful in scenarios where the data can be modeled linearly. But even when the data is not linear, the ideas we saw here appear everywhere. In future posts we will see how to apply the ideas learned here to other models.
+                </p>
+                
+
+
+
+                <p></p>
             </div>
         </div>
 
