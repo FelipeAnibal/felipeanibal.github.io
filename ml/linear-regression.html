@@ -379,7 +379,7 @@ for _ in range(epochs):
                     { x: 93, y: 3450 },
                     { x: 25, y: 900 }
                 ],
-                backgroundColor: 'rgb(255, 99, 132)'
+                backgroundColor: '#36a2eb'
             }]
         };
 
@@ -400,6 +400,10 @@ for _ in range(epochs):
                     title: {
                         display: true,
                         text: 'Sales with Trendline'
+                    }
+                }, elements:{
+                    point: {
+                        radius: 5
                     }
                 }
             }
@@ -451,7 +455,7 @@ for _ in range(epochs):
                     { x: 93, y: 3450 },
                     { x: 25, y: 900 }
                 ],
-                backgroundColor: 'rgb(255, 99, 132)'
+                backgroundColor: '#36a2eb'
             }]
         };
 
@@ -459,8 +463,9 @@ for _ in range(epochs):
             label: 'Trendline',
             data: trendlineData,
             type: 'line',
-            borderColor: 'rgb(54, 162, 235)',
-            borderWidth: 2,
+            borderColor: '#ffcd56',
+            backgroundColor: '#ffcd56',
+            borderWidth: 3,
             fill: false,
             pointRadius: 0
         });
@@ -482,6 +487,10 @@ for _ in range(epochs):
                     title: {
                         display: true,
                         text: 'Sales with Trendline'
+                    }
+                }, elements:{
+                    point: {
+                        radius: 5
                     }
                 }
             }
