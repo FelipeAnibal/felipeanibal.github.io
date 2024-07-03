@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Linear Regression</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row mt-5 justify-content-center">
+            <div class="col-md-10 px-5 py-5">
+                <h1 class="montserrat-bold pt-5">
+                    Linear Regression
+                </h1>
+                <div class="blog-info">
+                    <p class="text-muted mb-1">Posted on June 28, 2024 by Felipe Aníbal</p>
+                    <p class="text-muted mb-1">Last updated on July 2nd, 2024</p>
+                </div>
+                <p class="bv mt-3 pt-3">
+                    Linear Regression is a topic long studied in statistics and recently it has been widely used in
+                    machine learning models. <span class="highlight-blue">Because of its its simplicity and efficiency
+                        in some applications it is considered a good practice to test new models with linear regression
+                        before attempting more sophisticated algorithms.</span>
+                </p>
+                <h2>
+                    Step 0: Gaining intuition
+                </h2>
+                <p class="bv mt-3">
+                    Imagine we have information about the number of people that visited a given store in São Paulo and
+                    the total sales at that store in 10 different months. Imagine the information is as follows:
+                </p>
+                <div>
+                    <canvas id="myChart"></canvas>
+                </div>
+
+                <p class="bv mt-3">
+                    If the owner of that store wanted to estimate the number of sales on a given month based on the number of people that visited the store, one strategy would be to use a 'trendline' to estimate the sales. A trendline is line that captures the "trend" in the data, that is, a line that aproximates the data. On example is given bellow:
+                </p>
+
+                <div>
+                    <canvas id="2nd-chart"></canvas>
+                </div>
+
+                <p class="mt-3">
+                    With that line, the owner of the store can predict that if 20 people visit the store, the sales will be around $1000 and if 120 people visit the store the sales will be around $5050.
+                </p>
+                    
+                <p>
+                    The challenge we face is that many lines can be said to approximate the data above, how can we chose the best one? As with any aproximation, the line we choose will lead to errors. A natural idea is to choose the line that minimizes the sum of the errors in each point. That is precisely what we will do.
+                </p>
+                <p>
+                    <span class="highlight-blue">We can measure the error we make in a given estimation by taking the difference from our prediction (the line) to the point in the dataset</span>. Our model, for instance, tells us that if 100 people visit the store the sales will be around $4100, while the data shows that sales were of $5500. The error we made with that estimate was of $1400. That will give us the error we make at each point. To get the total error we sum the errors at each point.
+                </p>
+
+                <p>
+                    Since some points are above the line and some are bellow we would have positive and negative numbers that could cancel out. To prevent that a good strategy is to take the square of theses differences. Taking that into account, we can say the total error we make with a given line is <span class="math">\(\sum_{i=1}^n (f(x_i) - y_i)^2 \)</span>, where \(y_i\) is the y-cordinate of the data-point and \(f(x_i)\) is our prediction. <span class="highlight-blue">We will consider the best line, the one that reduces this error. This strategy is called least squares.</span> When using this strategy it is often useful to divide the whole equation above by N, the number of data-points we are considering. This then becames the "mean squared error".
+                </p>
+                <p class="math">
+                    $$E = \frac{1}{N} \sum_{i=0}^n \left( f(x_i) - y_i \right)^2$$
+                </p> 
+                <p>
+                    The line we get by minimizing this error function is our linear-regression line.
+                </p>
+
+                <h2>
+                    Step 1: Finding the best "line" - Analytical Solution
+                </h2>
+
+                <p>
+                    In the example above, the function f can be represented by a line. But real-world applications often involve much more than two dimensions. The total sales from a given store, for instance, is not only a function of the number of people that visited the store - there are many other variables to take into account. Let's see how we can find a linear function that minimizes the error in a general scenario.
+                </p>
+
+                <p class="math">
+                    The line of best-fit in the example we saw, can be modeled as <span class="math">\(y = f(x) = w_1x + w_0 \), where \(w_0\) and \(w_1\)</span> are constants. The task of finding the best-fit line can be rephrased to finding \(w_0\) and \(w_1\) that minimize the error function. If we had more variables, <span class="highlight-blue">our best-fit function would look like <span class="math">\(y = f(x) = w_nx_n + w_{n-1}x_{n-1} \dots + w_0 \)</span>, where \(w_i\) can be interpreted as the weight of the variables \(x_i\) in the prediction.</span> In other words, \(w\) represents the influence \(x_i\) in the prediction \( y \).
+                </p>
+
+                <p>
+                    To simplify our notation we can rewrite this in the vector/matrix form as \(\bf{w}^Tx\), where \(\bf{w}\) is called the weight vector, and \(\bf{x}\) represents the observations we make. Using this notation we can rewrite our error function as $$E(\bf{w}) = \frac{1}{N} \sum_{i=0}^n \left( \bf{w}^Tx_i - y_i \right)^2$$ To further simplify the math we will consider the vector of errors:
+                </p>
+                <p class="math">
+                    $$
+                    \begin{bmatrix}
+                    \bf{w}^T x_1 - y_1 \\
+                    \bf{w}^T x_2 - y_2\\
+                    \dots \\
+                    \bf{w}^T x_N - y_N\\
+                    \end{bmatrix}
+
+                    =
+
+                    \begin{bmatrix}
+                    \bf{w}^T x_1 \\
+                    \bf{w}^T x_2 \\
+                    \dots \\
+                    \bf{w}^T x_N \\
+                    \end{bmatrix}
+                    
+                    -
+
+                    \begin{bmatrix}
+                    y_1\\
+                    y_2 \\
+                    \dots \\
+                    y_N \\
+                    \end{bmatrix}
+
+                    =
+
+                    \begin{bmatrix}
+                    \bf{w}^T x_1 \\
+                    \bf{w}^T x_2 \\
+                    \dots \\
+                    \bf{w}^T x_N \\
+                    \end{bmatrix}
+
+                    - y
+
+                    =
+
+                    \begin{bmatrix}
+                    w_0 + w_1x_{11} + \dots + w_d x_{1d} \\
+                    w_0 + w_1x_{21} + \dots + w_d x_{2d} \\
+                    \dots \\
+                    w_0 + w_1x_{N1} + \dots + w_d x_{Nd} \\
+                    \end{bmatrix}
+
+                    - y
+
+                    = 
+
+                    \begin{bmatrix}
+                    1 & x_{11} & \dots & x{1d}\\
+                    1 & x_{21} & \dots & x{2d}\\
+                    &        & \dots &      \\
+                    1 & x_{N1} & \dots & x{Nd}\\
+                    \end{bmatrix}
+                    \begin{bmatrix}
+                    w_0\\
+                    w_1\\
+                    \dots\\
+                    w_n\\
+                    \end{bmatrix}
+                    
+                    - y
+
+                    = \bf{Xw} - y
+
+                    $$
+                </p>
+
+                <p> We can now represent our mean squared error as </p>
+                <p>$$E(\bf{w}) = || \bf{Xw} - y||^2$$</p>
+                <p> To minimize this function we can we solve the equation</p>
+                <p>$$\nabla E(w) = \frac{2}{N} (X)^T (Xw - y) = 0 $$</p>
+                <p> which results in</p>
+                <p>$$X^TXw = X^Ty$$</p>
+                <p class="text-center"><span class="highlight-blue">\(w = (X^TX)^{-1}X^Ty\)</span></p>
+
+                <p> <span class="highlight-blue">With that, we have the function \(f(x) = \bf{w}^Tx\) that minimizes the error!</span></p>
+
+                <h2>
+                    Step 2: Finding the best "line" - Iterative Solution
+                </h2>
+
+                <p>
+                    The solution we found above is called the analytical or closed-form solution. That give us exact values for the weights we wanted to calculate. That solution, however requires calculating a matrix inverse, which is computationaly expensive (an operation of cubic order to be specific). <span class="highlight-blue">That means that finding an analytical solution can be very time-consuming and even impossible for large enough vectors. Gladly we can use another strategy called gradient descent to calculate the weights.</span>
+                </p>
+                <p>
+                    Gradient descent deservers its own blog post (hopefully coming soon!). It is a widely used technic in many machine learning algorithms. In this post however we will see a quick explanation and a direct application of gradient descent.
+
+                    (to be continued.)
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Original data
+        const data1 = {
+            datasets: [{
+                label: 'Sales',
+                data: [
+                    { x: 100, y: 5500 },
+                    { x: 150, y: 6100 },
+                    { x: 180, y: 6200 },
+                    { x: 50, y: 2500 },
+                    { x: 0, y: 0 },
+                    { x: 60, y: 2000 },
+                    { x: 135, y: 7500 },
+                    { x: 93, y: 3450 },
+                    { x: 25, y: 900 }
+                ],
+                backgroundColor: 'rgb(255, 99, 132)'
+            }]
+        };
+
+        const data1config = {
+            type: 'scatter',
+            data: data1,
+            options: {
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom'
+                    },
+                    y: {
+                        type: 'linear'
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Sales with Trendline'
+                    }
+                }
+            }
+        };
+
+        // Create the chart
+        const ctx = document.getElementById('myChart').getContext('2d');
+        new Chart(ctx, data1config);
+
+        // Function to calculate the linear regression
+        function calculateLinearRegression(data) {
+            const n = data.length;
+            let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+
+            data.forEach(point => {
+                sumX += point.x;
+                sumY += point.y;
+                sumXY += point.x * point.y;
+                sumX2 += point.x * point.x;
+            });
+
+            const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+            const intercept = (sumY - slope * sumX) / n;
+
+            return { slope, intercept };
+        }
+
+        // Get the linear regression parameters
+        const { slope, intercept } = calculateLinearRegression(data1.datasets[0].data);
+
+        // Create the trendline data
+        const trendlineData = [
+            { x: 0, y: intercept },
+            { x: 180, y: slope * 180 + intercept }  // 180 is the max x value in the data
+        ];
+
+        // Add the trendline dataset
+        data1.datasets.push({
+            label: 'Trendline',
+            data: trendlineData,
+            type: 'line',
+            borderColor: 'rgb(54, 162, 235)',
+            borderWidth: 2,
+            fill: false,
+            pointRadius: 0
+        });
+
+        // Chart configuration
+        data1config.options.plugins.title.text = "Sales with Trendline";
+
+        // Create the chart
+        const ctx2 = document.getElementById('2nd-chart').getContext('2d');
+        new Chart(ctx2, data1config);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

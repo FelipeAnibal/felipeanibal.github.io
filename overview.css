@@ -1,0 +1,122 @@
+/* Importing Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* General body styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    background-color: #f8f9fa;
+    /* padding: 20px; */
+    margin: 0;
+}
+
+/* About Section Styling */
+.about-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.about-section h2 {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.about-section p {
+    font-size: 1.125em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Header styling */
+h1 {
+    color: #343a40;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 2.5em;
+}
+
+/* Paragraph styling */
+p.bv {
+    font-size: 1.125em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Card styling */
+.card.card-spe {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fefeff;
+    margin-bottom: 20px;
+}
+
+.card-title.-bold {
+    font-weight: 700;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.card-text.bv {
+    font-size: 1em;
+    line-height: 1.6;
+    margin-bottom: 10px
+}
+
+/* Styling for links */
+a {
+    color: #007bff; /* Default link color */
+    text-decoration: none;
+    transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+a:hover {
+    color: #0056b3; /* Darker color on hover */
+    text-decoration: underline;
+}
+
+/* Card links */
+.card-title a {
+    color: #343a40; /* Dark text color */
+    text-decoration: none;
+}
+
+.card-title a:hover {
+    color: #0056b3; /* Darker color on hover */
+    text-decoration: underline;
+}
+
+.card-meta {
+    color: #6c757d; /* Meta text color */
+    font-size: 0.875em; /* Smaller font size for meta information */
+    margin-bottom: 10px;
+}
+
+/* Read More button */
+.btn-outline-dark {
+    color: #343a40; /* Button text color */
+    border-color: #343a40; /* Button border color */
+    transition: color 0.3s ease, border-color 0.3s ease; /* Smooth transition for color and border */
+}
+
+.btn-outline-dark:hover {
+    color: #0056b3; /* Darker color on hover */
+    border-color: #0056b3; /* Darker border color on hover */
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+
+    .container {
+      padding: 0px;
+    }
+  }
