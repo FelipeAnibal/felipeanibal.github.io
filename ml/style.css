@@ -223,6 +223,14 @@ p.math,span.math{
     padding: 5px;
   }
 
+  .highlight-blue {
+    background-color: #e0f2fa; /* Light blue background */
+    font-weight: 500;
+    padding: 3px 4px;
+    border-radius: 3px;
+    border-bottom: 2px solid #b2ebf2;
+  }
+
   h1 {
     font-size: 2em;
   }
@@ -234,4 +242,8 @@ p.math,span.math{
   h3 {
     font-size: 1.5em;
   }
+}
+
+@media (max-width: 768px) {
+  
 }
