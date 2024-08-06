@@ -44,6 +44,11 @@ h1 {
     font-size: 2.5em;
 }
 
+h2 {
+    color: #343a40;
+    font-weight: 700;
+}
+
 /* Paragraph styling */
 p.bv {
     font-size: 1.125em;
