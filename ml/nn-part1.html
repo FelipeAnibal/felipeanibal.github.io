@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Introduction to Neural Networks - Part I</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row mt-5 justify-content-center">
+            <div class="col-md-10 px-5 py-5">
+                <h1 class="montserrat-bold pt-5">
+                    Introduction to Neural Networks - Part I
+                </h1>
+                <div class="blog-info">
+                    <p class="text-muted mb-1">Posted on August 16, 2024 by Felipe Aníbal</p>
+                    <p class="text-muted mb-1">Last updated on August 16, 2024</p>
+                </div>
+                <p class="bv mt-3 pt-3">
+                    Neural Networks take advantage of simple building blocks to create powerful models for
+                    classification and regression problems. The goal of this post is to introduce Perceptrons and
+                    their components, preparing us for more complex Neural Network models.
+                </p>
+                <h2>
+                    Perceptrons - The Building Blocks
+                </h2>
+                <p class="bv mt-3">
+                    Perceptrons are a simple tool useful for binary classification problems. A classic example is the
+                    problem of approving or denying credit in a bank. We can collect data from individuals in a vector \(x
+                    \in \mathbf{R}^d\), which will be our input space, and represent our decision with \(Y = \{+1,
+                    -1\}\), our output space. The different coordinates in \(X\) correspond to information like salary,
+                    debt, age, and other fields. The goal of a perceptron is to classify new points in our input space
+                    as +1 or -1. The perceptron applies a function that weights each of the coordinates
+                    in the input, sums them up, and compares the result to a threshold. If the weighted sum of the input
+                    is above the threshold, we label the point as +1; if it is below the threshold, we label it -1.
+                </p>
+
+                <p>
+                    This idea can be represented as $$h(x) = sign\left(\left( \sum^{d}_{i=0} x_iw_i \right) + b\right)$$
+                </p>
+
+                <p>
+                    where \(w_i, i =1,\dots,d \) represents the weights attributed to each coordinate of the input. To
+                    make our notation easier, we will consider the threshold \(b\) as a weight \(w_0\) and consider
+                    the vectors \( \mathbf{w} = [w_0, \cdots, w_d]^T\) and \(\mathbf{x} = [x_0, \cdots, x_d]^T\). Now we
+                    can rewrite our expression above as
+                </p>
+                <p class="math">
+                    $$ h(x) = sign \left( \mathbf{w}^{T} \mathbf{x} \right) $$
+                </p>
+
+                <p>
+                    The only question now is, how do we calculate the vector \(\mathbf{w}\)? We will use the data points
+                    we have to determine \(w\). If we assume that the data is linearly separable, the following algorithm
+                    will always find a vector \(w\) that makes our decision correct for the data points we have. First, we
+                    initialize the vector \(w\) to the zero vector. Then, at each iteration \(t = 0,1,2 ... N\), we pick a
+                    misclassified point \((x(t), y(t))\) in the dataset and update \(w\) with the following rule:
+                </p>
+                <p class="math">
+                    $$\mathbf{w}(t+1) = \mathbf{w}(t) + y(t)\mathbf{x}(t)$$
+                </p>
+                <p>
+                    where \(\mathbf{w}(t)\) is \(w\) at iteration \(t\). Repeat until there are no misclassified points.
+                    (If the data is linearly separable, this algorithm always stops!)
+                </p>
+
+
+                <h2>XOR - A Problem too Complex for a Single Perceptron</h2>
+
+                <p> Perceptrons are a simple tool that can achieve some interesting results. However, some functions, though
+                    simple, are impossible for a single perceptron. Consider the following scenario:
+                </p>
+
+                <figure class="image-container px-5">
+                    <img src="imgs/nn/xor.png" alt="Figure to illustrate the XOR function, a problem that is not linearly separable.">
+                    <figcaption>Figure illustrating the XOR function, a problem that is not linearly separable.
+                    </figcaption>
+                </figure>
+
+                <p>A single perceptron like the one we saw before cannot classify these points. However, 
+                    we can combine the outputs of two perceptrons to build our classifier. Consider a perceptron that
+                    implements the classification shown in figure A, and another that implements the classification
+                    shown in figure B. </p>
+
+                <figure class="image-container px-5">
+                    <img src="imgs/nn/xor2.png" alt="Figure illustrating a solution to the XOR problem using 2 perceptrons.">
+                    <figcaption>Figure illustrating a solution to the XOR problem using 2 perceptrons.</figcaption>
+                </figure>
+                <p>
+                    If we combine the results of these two perceptrons using a logical XOR, we get the correct
+                    classification for the problem we initially had. The good news is that the logical AND and the
+                    logical OR can also be built using perceptrons! So, a combination of perceptrons can give us the
+                    classifier we want.</p>
+
+                <p class="math">
+                    Perceptrons that implement logical OR and AND:
+                    $$OR(x_1, x_2) = \text{sign}(x_1 + x_2 + 1.5) $$
+                    $$AND(x_1, x_2) = \text{sign}(x_1 + x_2 - 1.5) $$
+                </p>
+
+                <h2>Combining Perceptrons - Multi-layer Perceptron</h2>
+
+                <p>
+                    To better understand perceptrons and their combinations, we are going to use a graphical
+                    representation of perceptrons as nodes. Here are the perceptrons for the logical AND and OR. The
+                    numbers on the lines represent the multiplication of the inputs to the nodes by those values. Everything
+                    that goes into a node is summed up, and the S in the final node represents the sign function.
+                </p>
+
+                <figure class="image-container px-5">
+                    <img src="imgs/nn/andOrPercep.png"
+                        alt="Figure of perceptrons that implement logical OR and logical AND operations.">
+                    <figcaption>Perceptrons implementing logical OR and logical AND operations.
+                    </figcaption>
+                </figure>
+
+                <p>
+                    The XOR function that we want to implement can be written as a combination of ANDs and ORs.
+
+                    $$XOR(x_1, x_2) = OR(AND(x_1, \bar x_2), AND(\bar x_1, x_2))$$
+
+                    We can implement this by using the output of one perceptron as the input for another. Here is the
+                    combination we get:
+                </p>
+
+                <figure class="image-container px-5">
+                    <img src="imgs/nn/xorPercp.png"
+                        alt="Figure illustrating the implementation of XOR using multiple perceptrons.">
+                    <figcaption>Figure illustrating the implementation of XOR using multiplpe perceptrons.
+                    </figcaption>
+                </figure>
+
+                <p>Notice that this combination of perceptrons forms multiple layers, hence the name Multi-layer
+                    perceptron (MLP). The first and the last layers are for input and output respectively. And the
+                    layers in the middle are called hidden layers. The idea of grouping perceptrons is the idea behind
+                    neural networs. Theses groupings of small units allow us to model all kinds of smooth functions. If
+                    we can decompose a function as a combination of ANDs and ORs of perceptrons, it can be modeled by an
+                    MLP. The picture below might give a sense of that. We can add layers and nodes to fit more complex
+                    functions. (However, one must do it with care in order not to loose generalization and end up with
+                    overfitting.) Once we fix the number of layers and nodes, we use the dataset to fit the function.
+                </p>
+
+                <p>
+                    Fitting the data to an MLP, however, may lead to a hard combinatorial optimization problem! In the next post we will introduce Neural Networks and see how this is done with forward propagation and backward propagation.
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+
+</html>

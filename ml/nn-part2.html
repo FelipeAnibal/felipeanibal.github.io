@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Introduction to Neural Networks - Part II</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row mt-5 justify-content-center">
+            <div class="col-md-10 px-5 py-5">
+                <h1 class="montserrat-bold pt-5">
+                    Introduction to Neural Networks - Part II
+                </h1>
+                <div class="blog-info">
+                    <p class="text-muted mb-1">Posted on August 16, 2024 by Felipe Aníbal</p>
+                    <p class="text-muted mb-1">Last updated on August 16, 2024</p>
+                </div>
+
+                <h2>Neural Networks</h2>
+
+                <p>
+                    The Neural Networks that we will study are very similar to Multi-layer Perceptrons but instead
+                    of using the sign function, we will use a differentiable function. This is called the activation
+                    function of our neural network. There are multiple options of activation functions to use. We will
+                    work with the tanh, which has an almost linear behaviour close to zero and is nearly \(\pm 1\) for
+                    large values of \( |x| \).
+                </p>
+
+                <h3>
+                    Notation
+                </h3>
+
+                <p>
+                    Let's introduce some notation. For the rest of this text, we will use the same notation as in the
+                    book Learning from Data by Yaser S. Abu-Mostafa, Malik Magdon-Ismail, and Hsuan-Tien Lin. Here is
+                    the summary of it:
+                </p>
+                <ul>
+                    <li>
+                        The layers in our Neural Network will be labeled by \(l = 0, \cdots, L\).
+                    </li>
+
+                    <li>
+                        The layer 0 is for input and is not considered an actual layer, so we have \(L\) layers. The
+                        last layers \(l=L\) is the output layer.
+                    </li>
+                    <li>
+                        We will use superscript (\(^{(l)}\)) to refer to a particular layer.
+                    </li>
+                    <li>
+                        Each layer \(l\) has ‘dimension’ \(d^{(l)}\), which means that it has \(d{(l)} +1 \)nodes,
+                        labeled 0, 1, . . . , \(d\). Every layer has one special node, which is called the bias
+                        node (labeled 0). This bias node is set to have an output 1, which is analogous
+                        to the fictitious x0 = 1 convention that we had for linear models.
+                    </li>
+                    <li>
+                        Every arrow represents a weight or connection strength from a node in a
+                        layer to a node in the next higher layer. Notice that the bias nodes have no
+                        incoming weights. There are no other connection weights.
+                    </li>
+                    <li>
+                        A node with an
+                        incoming weight indicates that some signal is fed into this node. Every such
+                        node with an input has a transformation function \(\theta\)
+                    </li>
+
+                    <li>Each node has an incoming signal s and an output x. The weights on links into
+the node from the previous layer are \(w^{(l)}\), so the weights are indexed by the
+layer into which they go. Thus, the output of the nodes in layer \(l-1\) is
+multiplied by weights \(w^{(l)}\) </li>
+
+<li>
+    We use subscripts to index the nodes in a layer.
+So, \(w^{(l)}_{ij}\) is the weight <i>into</i> node \(j\) in layer \(l\) from node \(i\) in the previous layer,
+the signal going into node \(j\) in layer \(l\) is \(s^{(l)}_j\) , and the output of this node is \(x^{(l)}_j\).
+</li>
+
+<li>
+    We collect all the input signals to nodes \(1, \cdots , d^{(l)}\) in layer \(l\) in the vector \(s^{(l)}\)</li>
+
+    <li>Similarly, collect the output from nodes \(0, \cdots, d^{(l)}\) in the vector \(x^{(l)}\); note that \(x^{(l)} \in \{1\} \times \mathbf{R}^{d^{(l)}}\) because of the bias node 0. There are links connecting the outputs of all nodes in the previous layer to the inputs of layer \( l \). So, into layer \( l \), we have a\( (d^{(l-1)} + 1) \times d^{(l)} \) matrix of weights \(W^{(l)}\). The (i, j)-entry of \(W^{(l)}\) is \(w^{(l)}_{ij}\) going from node i in the previous layer to node j in layer \(l\).</li>
+                </ul>
+
+                <h2> To be continued!</h2>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
