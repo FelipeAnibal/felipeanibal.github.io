@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fixing Timezone Bugs - Third Contribution to GNOME Calendar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row mt-5 justify-content-center">
+            <div class="col-md-10 px-5 py-5">
+                <h1 class="montserrat-bold pt-5">
+                    Fixing Timezone Bugs - Third Contribution to GNOME Calendar
+                </h1>
+                <div class="blog-info">
+                    <p class="text-muted mb-1">Posted on August 28, 2024 by Felipe Aníbal</p>
+                    <p class="text-muted mb-1">Last updated on August 28, 2024</p>
+                </div>
+
+                <h2 class="mt-5">
+                    Initial Plan
+                </h2>
+
+                <p>
+                    Our inital plan was to expand the test coverage for the calendar! In order to do that, we followed the issues pointed out by jeff! (Issue 1093). We had already written MRs for 2 of those features and implemented tests for one of them. Now, there where 4 issues left. These issues however, were not easy to test! Most of them involved testing the UI, or involved project decisions that were beyond our jurisdiction. Here is a more detailed look at each issue.
+                </p>
+
+                <figure class="image-container p-5">
+                    <img src="imgs/blocker.png" alt="List of issues that involved tests, pointed by Jeff">
+                    <figcaption>Issues that involved tests, pointed by Jeff</figcaption>
+                </figure>
+
+                <h3>
+                    <a href="https://gitlab.gnome.org/GNOME/gnome-calendar/-/issues/2">Issue #2:</a> Timezone management widgets / GUI
+                </h3>
+
+                <p>This issue is a feature implementation! The maintainers would like to have a visual way to set the timezone for an event. The idea is to have a select menu with different locations and there timezones. Something as shown below:</p>
+
+                <figure class="image-container">
+                    <img src="imgs/tz-selector.png" alt="Example of Timezone Selector Widget">
+                    <figcaption>Example of Timezone Selector Widget</figcaption>
+                </figure>
+
+                <p>This however involved making a design for the UI of this feature and them implementing it using the GTK library. We never implemented a GTK widget, but that is a challenge we would gladly accept! Building the design, however, requires people to /work on the UI, which is beyond our understanding. So we decided to look at the other issues!</p>
+                
+                <h3>
+                    <a href="https://gitlab.gnome.org/GNOME/gnome-calendar/-/issues/1221">Issue #1221:</a> Undefined timezones!
+                </h3>
+
+                <p>
+                    This deals with incorrect or undefined timezones. What should the calendar do if it identifies an incorrect timezone or one that doesn't exist? Some users reported that the events from a imported calendar file, that used EDT timezone where being incorrectly displayed. We investigated the issue and discovered the problem happens because some timezones, though popular, are not defined in most systems. That is the case of the EDT timezone. When you import calendar files that use this timezone, the calendar saves the events in UTC time (which leads to an offset of 4 hours). We asked the maintainers what the correct behavior should be for theses cases and we are currently discussing what to do. We think that the best solution is to save the event on local time and display a warning to the user. That's one of the things we might implement in the next weeks.
+                </p>
+
+                
+                <h3>
+                    <a href="https://gitlab.gnome.org/GNOME/gnome-calendar/-/issues/1198">Issue #1198:</a> Drag and drop offset by one hour (Fixed!)
+                </h3>
+
+                <p>
+                    One important feature of the calendar is the ability to move events from on day to the other or from one date to the other by symply draggind and dropping. This feature however, presented a bug on the week that the Daylight Saving Time started in some timezones. The events during this week would receive a 1 hour offset with they were moved using drag and drop. A similar fix was implemented by Daniel Garcia in the past, so Otávio implemented the same idea on this issue and successfully fixed the bug.
+                </p>
+                
+                <h3>
+                    <a href="https://gitlab.gnome.org/GNOME/gnome-calendar/-/issues/1110">Issue #1110: </a>Costum timezones (Ideas to fix!)
+                </h3>
+
+                <p>
+                    Some calendars offer the ability to create custom timezones and the RFC5545 allows the ics files to define new timezones. The gnome calendar, however, does not implement this feature. This means that calendar files that define new timezones have their events wrongly displayed! The calendar treats them as if they were in the UTC timezone. This often not the correct behavior! The question we had here was: "how do we save these custom timezones? Do we really have to save them? If we don't implement custom timezones, shouldn't we notify the user? And what timezone do we use in this case?". We investigated the way that Evolution server does this. It are able to parse new timezone definitions, but it doesn't save them for future events. We thought about implementing a similar behavior on the calendar!
+                </p>
+                
+                <h3>
+                    <a href="https://gitlab.gnome.org/GNOME/gnome-calendar/-/issues/1243">Issue #1243:</a> Enconding Problems! (Ideas to fix)
+                </h3>
+
+                <p>
+                    This week we investigated issue 1243. This issue started with a problem similar to the one above: how should the calendar deal with new timezone definitions? But while investigating the issue, Otávio discovered that there was another problem! The calendar's importer suddenly breaks when trying to import calendar files that use UTF-16 enconding. We studied the issue and have thought of a way to fix it using the glib function "g_convert". This is likely our next step this week.
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
