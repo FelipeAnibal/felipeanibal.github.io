@@ -29,17 +29,17 @@
 
                 <div class="blog-info my-4">
                     <p class="text-muted mb-1">Posted on Sep 25th, 2024 by Felipe Aníbal</p>
-                    <p class="text-muted mb-1">Last updated on Sep 25th, 2024</p>
+                    <p class="text-muted mb-1">Last updated on Sep 26th, 2024</p>
                 </div>
 
                 <p>
-                    K Nearest Neighbors or simply KNN is a family of classifier algorithms that is conceptually easy to understand and to implement and nonetheless may achieves great results. In this post we will see a quick intuition behind KNN, a more formal description of it, some examples and use cases and some data preparation techniques that might help us make a better classifier.
+                    K Nearest Neighbors or simply KNN is a family of classifier algorithms that is conceptually easy to understand and to implement and nonetheless may achieve great results. <span class="highlight-blue">In this post we will see a quick intuition behind KNN, a more formal description of it, some examples and use cases and some data preparation techniques that might help us make a better classifier.</span>
                 </p>
 
                 <h2>Gaining intuition</h2>
 
                 <p>
-                    A classifier is essentially an algorithm that assigns a class for a given input. An algorithm that decides wether to approve or deny a loan to a person is an example of a classifier. Given an input - the information about a person - it assigns that person a class - deserving credit or not deserving credit. This kind of the decision is usually made from data collected in the past, if many people with given characteristics received a loan and were able to repay it, the someone with similar characteristics should likely be able to repay the loan as well. Likewise, if many people with a given characteristic were not able to repay the loan, then someone in similar conditions might not be able to pay either.
+                    <span class="highlight-blue">A classifier is essentially an algorithm that assigns a class to a given input.</span> An algorithm that decides whether to approve or deny a loan to a person is an example of a classifier. Given an input — the information about a person — it assigns that person a class, such as "deserving credit" or "not deserving credit". This kind of decision is usually made from data collected in the past. If many people with given characteristics received a loan and were able to repay it, then someone with similar characteristics should likely be able to repay the loan as well. Likewise, if many people with certain characteristics were not able to repay the loan, then someone in similar conditions might also struggle to repay it.
                 </p>
 
                 <p>
@@ -53,17 +53,17 @@
                 <h2>A more formal definition</h2>
 
                 <p>
-                    In order to translate the idea above into a more formal definition, we can use a mathematical concept from linear algebra. We can think about each input of N attributes as a N-dimensional vector, better yet, we can think about it as point in a N-dimensional space. That way, given a new point, we give it the same label as the most frequent label among its neighbors. We can for instance look at the 3 points that are closest to the new point, and give the new point the label that appears most frequently. That would be a 3-NN a 3 nearest neighbors classifier. We could look at the 30 nearest points, and that would be 30-NN. We can vary the value of K to adjust our classifier.
+                    To translate the above idea into a more formal definition, we can use a mathematical concept from linear algebra. We can think of each input with N attributes as an N-dimensional vector. <span class="highlight-blue">Better yet, we can think of it as a point in N-dimensional space. That way, given a new point, we assign it the same label as the most frequent label among its neighbors.</span> For instance, we can look at the 3 points that are closest to the new point and assign the new point the label that appears most frequently. That would be a 3-NN (3-nearest neighbors) classifier. We could also look at the 30 nearest points, and that would be 30-NN. We can vary the value of K to adjust our classifier.
                 </p>
                 
                 <p>
-                    A problem that arises from thinking about the input as vector is that we can only calculate the distances between two numerical vectors. How could we measure the distance between to features like "Married" and "Single". This is a problem that we will address in a moment. But for now, let us try to implement the idea above mentioned in an example using only numerical inputs.
+                    A problem that arises when thinking of the input as a vector is that we can only calculate the distances between two numerical vectors. How could we measure the distance between features like "Married" and "Single"? This is a problem we will address in a moment. But for now, let's try to implement the above idea in an example using only numerical inputs.
                 </p>
 
                 <h2>KNN hands-on: the Adult dataset</h2>
 
                 <p>
-                    The university of California Irvine has published a dataset with information about ~32000 people from the US 1994 Census. This information includes, the number of years a person has studied, their capital gain and capital loss, their age, the number of hours that person works a week and their income. The income only shows wether or not that person earns more than 50,000 dollars a year. If we are given information about a new person, except their income, can we guess if that person earns more than 50,000 dollars?
+                    The University of California, Irvine, has published a dataset with information about approximately 32,000 people from the US 1994 Census. This information includes the number of years a person has studied, their capital gain and capital loss, their age, the number of hours they work per week, and their income. The income only shows whether that person earns more than $50,000 a year. Given information about a new person, except for their income, can we guess if they earn more than $50,000?
                 </p>
 
                 <p>
@@ -99,29 +99,29 @@ avg = sum(scores)/10</code>
 </pre>
                 </div>
                 <p>
-                    Using the model above in the test data (also available at the <a href="https://archive.ics.uci.edu/dataset/2/adult">UCI machine learning repository</a>) we got an accuracy of around 82%.
+                    Using the model above on the test data (also available at the <a href="https://archive.ics.uci.edu/dataset/2/adult">UCI Machine Learning Repository</a>), we achieved an accuracy of around 82%.
                 </p>
 
                 <h2>Dealing with categorical features</h2>
 
                 <p>
-                    We saw above that our classifier makes a correct guess around 82% of the time. Let's see if we can use more information from the dataset to improve our prediction. We will turn our categorical features - the ones that don't have numerical values - into numerical features. There are 2 very common ways of doing that: label encoding and one-hot encoding.
+                    We saw above that our classifier makes a correct guess around 82% of the time. Let's see if we can use more information from the dataset to improve our prediction. <span class="highlight-blue">We will turn our categorical features — the ones that don't have numerical values — into numerical features.</span> There are two very common ways of doing that: label encoding and one-hot encoding.
                 </p>
 
                 <p>
-                    Label encoding consists of simply assigning a number two each value of a categorical feature in the order they appear. For example, if we look at the feature "relationship", we can attribute 0 to Husband, 1 to Wife, 2 to Own-child, 3 to Not-in-family, 4 to Other-relative and 5 to Unmarried. Now we can feed that information to our classifier. We can do the same to each one of our other categorical features and then feed them to our classifier.
+                    <span class="highlight-blue">Label encoding consists of assigning a number to each value of a categorical feature in the order they appear</span>. For example, if we look at the feature "relationship," we can assign 0 to Husband, 1 to Wife, 2 to Own-child, 3 to Not-in-family, 4 to Other-relative, and 5 to Unmarried. Now we can feed that information to our classifier. We can do the same for each of our other categorical features and then feed them into our classifier as well.
                 </p>
 
                 <p>
-                    Another strategy is to encode each value in a categorical feature as a new feature with binary values. That means we can create new columns in our dataset like Husband, Wife, Own-child, Not-in-family, Other-relative and Unmarried, each with values 1 if a person fits that category and 0 if it doesn't. 
+                    <span class="highlight-blue">Another strategy, known as one-hot encoding, is to encode each value in a categorical feature as a new binary feature</span>. That means we can create new columns in our dataset like Husband, Wife, Own-child, Not-in-family, Other-relative, and Unmarried, each with values of 1 if a person fits that category and 0 if they don't. 
                 </p>
 
                 <p>
-                    The second strategy has the advantage of not creating arbitrary magnitude difference and order between the values. What does it mean, for instance, that "Other-relative" is twice "Own-child" as the label encoding implies? Or why is "Husband" further from "Other-relative" than from "Wife"? On the other hand, one-hot encoding can dramatically increase the size of our dataset. In our example, if we encode each categorical feature using one-hot encoding we go from around 15 columns to more than 100 columns.
+                    <span class="highlight-blue">The second strategy has the advantage of not creating arbitrary magnitude differences and order between the values.</span> What does it mean, for instance, that "Other-relative" is twice "Own-child" as the label encoding implies? Or why is "Husband" further from "Other-relative" than from "Wife"? <span class="highlight-blue">On the other hand, one-hot encoding can dramatically increase the size of our dataset.</span> In our example, if we encode each categorical feature using one-hot encoding we go from around 15 columns to more than 100 columns.
                 </p>
 
                 <p>
-                    Let's see if including categorical data using one-hot encoding we can improve the accuracy of our classifier.
+                    Let's see if including categorical data using one-hot encoding can improve the accuracy of our classifier.
                 </p>
 
                 <h2>KNN hands-on (part II):</h2>
@@ -160,7 +160,7 @@ avg = sum(scores)/10</code>
                     KNN is a simple, but powerful algorithm for classification. We can couple it with data preparation strategies like one-hot encoding and Label encoding and use it to quickly build a classifier. One disadvantage worth mentioning of KNN over other algorithms like neural-networks is performance when making a prediction. In order to classify a new value the KNN classifier has to look at every single point already at the dataset and sort then according to their distance. That might take a very long time for big enough datasets.
                 </p>
 
-                <p>The complete code with the examples mentioned here is available at: <a href="https://github.com/FelipeAnibal/felipeanibal.github.io/tree/main/ml/implementations/knn">https://github.com/FelipeAnibal/felipeanibal.github.io/tree/main/ml/implementations/knn</a></p>
+                <p>The complete code with the examples mentioned here is available at <a href="https://github.com/FelipeAnibal/felipeanibal.github.io/tree/main/ml/implementations/knn">this repository</a></p>
             </div>
         </div>
     </div>
