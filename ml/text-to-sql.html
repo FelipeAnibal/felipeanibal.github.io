@@ -30,28 +30,28 @@
 
                 <div class="blog-info my-4">
                     <p class="text-muted mb-1">Posted on Sep 24th, 2024 by Felipe Aníbal</p>
-                    <p class="text-muted mb-1">Last updated on Sep 24th, 2024</p>
+                    <p class="text-muted mb-1">Last updated on Oct 1st, 2024</p>
                 </div>
 
                 <p>
-                    In the past few months, I have dedicated myself to study machine learning and decided to write about some of it here. In the meantime, an opportunity arose to work on a hands-on project and apply some of what I've learned—and learn much more in the process!
-                    <span class="highlight-blue">For the next few months, I will be research assistant in a project that involves generating database queries from sentences in Portuguese, an application of a topic often called text-to-SQL translation. More specifically, I'll be working on data augmentation techniques for models that perform text-to-SQL translation.</span>
+                    For the past year, I have dedicated myself to study machine learning and decided to write about some of it here. In the meantime, an opportunity arose to work on a research project and apply what I've learned on a hands-on project.
+                    <span class="highlight-blue">For the next 12 months, I will be a research assistant in a project that studies how to generate database queries from sentences in Portuguese, an application of a topic often called text-to-SQL translation. More specifically, I'll be working on data augmentation techniques for models that perform text-to-SQL translation.</span>
                 </p>
 
-                <h2>What is Text-to-SQL Translation?</h2>
+                <h2>What is text-to-SQL translation?</h2>
 
                 <p>
-                    Imagine researchers have collected large volumes of data about public schools in Brazil. The dataset includes invaluable information such as the schools' locations, the size of their facilities, the number of enrolled students, the resources available at each school, and so on. This data can be extremely useful for policymaking, helping answer questions like, "How many schools have access to computers?", "Which cities have no schools?", or "What is the average number of students in schools in Feira de Santana?". With some programming, these questions could be answered easily. <span class="highlight-blue">But what if a system could be built that answered these questions without the need for programming? This is where text-to-SQL comes in</span>.
+                    Imagine researchers have collected large volumes of data about public schools in Brazil. The dataset includes invaluable information such as the schools' locations, the size of their facilities, the number of enrolled students, the resources available at each school, and so on. This data can be extremely useful for policy making, helping answer questions like, "How many schools have access to computers?", "Which cities have the fewest schools?", or "What is the average number of students in schools in Feira de Santana?". With some programming, these questions could be answered easily. Programmers can use what is called Structured Query Language to retrieve this information from the database. <span class="highlight-blue">But what if a system could be built that answered these questions directly, without the need for programming? This is where text-to-SQL comes in</span>.
                 </p>
 
                 <p>
                     Text-to-SQL refers to a set of techniques aimed at translating questions in natural language (NL)—a language spoken by humans—into Structured Query Language (SQL), which is used by programmers to retrieve data from a database.
                 </p>
 
-                <h2>What Are Some of the Challenges of Text-to-SQL?</h2>
+                <h2>What are some of the challenges of text-to-SQL?</h2>
 
                 <p>
-                    Text-to-SQL translation has evolved significantly in the past five years. The advent of large language models (LLMs) like GPT has had a major impact on the field. However, some challenges remain! <span class="highlight-blue">Considering the nature of the problem itself, there are challenges related to understanding the NL input and producing the correct SQL output</span>. Here are some challenges highlighted in the 2023 survey by George Katsogiannis-Meimarakis and Georgia Koutrika<a class="reference" href="#ref1"><sup>1</sup></a>.
+                    Text-to-SQL translation has evolved significantly in the past five years. The advent of large language models (LLMs) like GPT has had a major impact on the field. However, many challenges remain! <span class="highlight-blue">There are both challenges related to understanding the NL input and challenges related to producing the correct SQL output</span>. Here are some challenges highlighted in the 2023 survey by George Katsogiannis-Meimarakis and Georgia Koutrika<a class="reference" href="#ref1"><sup>1</sup></a> that help to see why this is no trivial task.
                 </p>
                 
                 <p>
@@ -82,36 +82,43 @@
                     <li><strong>Entity Modeling:</strong> How entities are modeled in a database can vary greatly. For instance, querying students in a university database differs from querying movie genres in a film database, as some entities are stored across multiple tables, while others are modeled in many-to-many relationships.</li>
                 </ul>
 
-                <h2>What is Data Augmentation?</h2>
+                <h2>The promise of data</h2>
 
                 <p>
-                    Many models have been developed to address the problems mentioned above. Some of the best-performing algorithms today involve machine learning and large language models (LLMs). These strategies essentially "train" computers to learn from examples. Researchers create models that are fed with database schemas (or even entire databases) and a series of pairs of NL questions with corresponding SQL queries. The models then "learn" from this data and are able to predict the best "translation" of a NL question into a SQL query.
+                    Many models have been developed to address the problems mentioned above. Some of the best-performing algorithms today involve machine learning and the latest large language models (LLMs) - like GPT. These strategies essentially "train" computers to learn from examples. Researchers feed these models with a series of NL questions and their corresponding SQL query. The models then "learn" from this data and are able to predict the best "translation" of a NL question into a SQL query.
+                </p>
+
+                <p>These Machine Learning Models require large volumes of data! <span class="highlight-blue">The more examples these models have to learn from, the more robust they get.</span> Thankfully, alongside the significant technical advances in machine learning algorithms, the amount of available data has increased dramatically in recent years. Datasets called benchmarks have been created and published with the specific purpose of training and evaluating text-to-SQL models. Some of the most well-known benchmarks are BIRD<a href="#ref4"><sup>4</sup></a> and Spider<a href="#ref5"><sup>5</sup></a>, and they fueled great progress in the field.
                 </p>
 
                 <p>
-                    <span class="highlight-blue">These Machine Learning Models require large volumes of data!</span> Thankfully, alongside the significant technical advances in machine learning algorithms, the amount of available data has increased dramatically in recent years. Datasets called benchmarks have been created and published with the specific purpose of training and evaluating text-to-SQL models. Some of the most well-known benchmarks are BIRD<a href="ref4"><sup>4</sup></a> and Spider<a href="ref5">5</a>, and they allowed great progress in the field.
+                    <span class="highlight-blue">However, building accurate and diverse datasets is costly, and the datasets we have still have limitations. Researchers Karina Fróes<a href="#ref2"><sup>2</sup></a> and Diego Lopes<a href="#ref3"><sup>3</sup></a> highlight that more specific SQL queries, like temporal and geospatial queries, are still underrepresented in datasets for text-to-SQL applications. Additionally, when working with languages other than English, we have very limited data. The lack of training data in these cases hinders the development of robust and accurate models.</span> In theory, if we have more data we can create better models for these specific contexts as well as for languages other than English.
+                </p>
+
+                <h2>What is data augmentation?</h2>
+
+                <p>
+                    To address these limitations, data augmentation has been explored as a technique and it will be the focus of my research in the coming months. <span class="highlight-blue">The goal of data augmentation is to generate synthetic data that can be used alongside real data to improve a model's performance.</span> Data augmentation is widely used in other ML fields like image processing and computer vision, and it has shown promising results in the context of text-to-SQL as well<a href="#ref6"><sup>6</sup></a>.
+                </p>
+
+                <h2>Research applications</h2>
+
+                <p>
+                    One of the goals of this research is to create a system just like described in the beginning of this article. We will apply the techniques we learn from this research on datasets from the CulturaEduca platform, which contains data on culture and education in Brazil, to build an interface that allows users to make questions about a dataset and have them answered with no programming knowledge.
+                </p>
+
+                <h2>Next steps</h2>
+
+                <p>
+                    In the coming weeks, I will explore what is already available about data augmentation for text-to-SQL translation in the literature. <span class="highlight-blue">One of the goals of this research project is to explore different data augmentation techniques, understand their impact, and use them to produce better models for the Portuguese language.</span>
                 </p>
 
                 <p>
-                    <span class="highlight-blue">However, building accurate and diverse datasets is costly, and the datasets we have still have limitations. Researchers Karina Fróes<a href="#ref2"><sup>2</sup></a> and Diego Lopes<a href="#ref3"><sup>3</sup></a> highlight that temporal and geospatial queries, for example, are still underrepresented in datasets for text-to-SQL applications. Additionally, when working with languages other than English, we have very limited data. The lack of training data in these cases hinders the development of robust and accurate models.</span>
+                    My research will assist Karina Fróes<a href="#ref2"><sup>2</sup></a> and Diego Lopes<a href="#ref3"><sup>3</sup></a> in their work on temporal and geospatial text-to-SQL translation, and I will be mentored by Professor Kelly Braghetto.
                 </p>
 
                 <p>
-                    To address these limitations, data augmentation is often explored as a technique, and it will be the focus of my research in the coming months. <span class="highlight-blue">The goal of data augmentation is to generate synthetic data that can be used alongside real data to improve a model's performance.</span> Data augmentation is widely used in other ML fields like image processing and computer vision, and it has shown promising results in the context of text-to-SQL as well.
-                </p>
-
-                <h2>Next Steps</h2>
-
-                <p>
-                    In the coming months, I plan to explore data augmentation for text-to-SQL translation. <span class="highlight-blue">The goal of this research project is to explore different data augmentation techniques, understand their impact, and use them to produce better models for the Portuguese language. </span>
-                </p>
-
-                <p>
-                    My research will assist Karina Fróes<a href="#ref2"><sup>2</sup></a> and Diego Lopes<a href="#ref3"><sup>3</sup></a> in their work on temporal and geospatial text-to-SQL translation, and I will be mentored by Professor Kelly Braghetto. As a case of study, we will apply the techiniques we learn on datasets from the CulturaEduca platform, which contains data on culture and education in Brazil.
-                </p>
-
-                <p>
-                    Inspired by <span class="highlight-blue"><a href="https://otavioolsilva.github.io/">Otávio Silva</a></span> I hope to keep this blog updated with the latest advancements in my research in the form of "research checkpoints".
+                    Inspired by <span class="highlight-blue"><a href="https://otavioolsilva.github.io/">Otávio Silva</a></span> I hope to keep this blog updated with the latest advancements in my research in the form of regular "research updates".
                 </p>
 
                 <h2>References:</h2>
@@ -128,8 +135,11 @@
                     <li id="ref4">
                         Li, Jinyang and Hui, Binyuan and Qu, Ge and Yang, Jiaxi and Li, Binhua and Li, Bowen and Wang, Bailin and Qin, Bowen and Geng, Ruiying and Huo, Nan and others. 2024. Can llm already serve as a database interface? a big bench for large-scale database grounded text-to-sqls. Advances in Neural Information Processing Systems. <a href="https://arxiv.org/pdf/2305.03111">https://arxiv.org/pdf/2305.03111</a>
                     </li>
-                    <li>
+                    <li id="ref5">
                         Tao Yu, Rui Zhang, Kai Yang, Michihiro Yasunaga, Dongxu Wang, Zifan Li, James Ma, Irene Li, Qingning Yao, Shanelle Roman, Zilin Zhang, Dragomir Radev. Spider: A Large-Scale Human-Labeled Dataset for Complex and Cross-Domain Semantic Parsing and Text-to-SQL Task. <a href="https://arxiv.org/abs/1809.08887">https://arxiv.org/abs/1809.08887</a>
+                    </li>
+                    <li id="ref6">
+                        Ruoxi Sun, Sercan Ö. Arik, Alex Muzio, Lesly Miculicich, Satya Gundabathula, Pengcheng Yin, Hanjun Dai, Hootan Nakhost, Rajarishi Sinha, Zifeng Wang, Tomas Pfister. 2023. SQL-PaLM: Improved Large Language Model Adaptation for Text-to-SQL (extended). <a href="https://arxiv.org/abs/2306.00739">https://arxiv.org/abs/2306.00739</a>
                     </li>
                 </ol>
             </div>
