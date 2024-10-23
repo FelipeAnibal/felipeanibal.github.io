@@ -213,6 +213,23 @@ p.math,span.math{
   color: #6c757d; /* Gray for comments */
 }
 
+.quote {
+  font-style: italic;
+  color: #555; /* A subtle gray color for the text */
+  border-left: 4px solid #007bff; /* A blue border on the left to highlight the quote */
+  padding-left: 15px; /* Padding between the border and the text */
+  margin: 20px 0; /* Margin to give some space around the quote */
+  background-color: #f9f9f9; /* Light background for the quote area */
+  border-radius: 5px; /* Slightly rounded corners */
+  padding: 15px; /* Internal padding to make the text more readable */
+}
+
+.quote p {
+  margin-bottom: 10px; /* Adjusts the space between paragraphs within the quote */
+  line-height: 1.6; /* Improves the readability with spaced-out lines */
+}
+
+
 /* Media query for smaller screens */
 @media (max-width: 768px) {
   body {
