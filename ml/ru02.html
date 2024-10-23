@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Research Update 02</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row mt-5 justify-content-center">
+            <div class="col-md-10 px-5 py-5">
+                <h1 class="montserrat-bold pt-5">
+                    Research Update 02: Preliminary augmentation attempts
+                </h1>
+
+                <div class="blog-info my-4">
+                    <p class="text-muted mb-1">Posted on Oct 23rd, 2024 by Felipe Aníbal</p>
+                    <p class="text-muted mb-1">Last updated on Oct 23rd, 2024</p>
+                </div>
+
+                <p>
+                    In the past couple of weeks I studied data augmentation (DA) techniques for natural language processing (NLP) in general (not necessarily applied to text-to-sql) and a made some preliminary experiments to understand those techniques.
+                </p>
+                
+                
+                <h2>What data augmentation techniques are there for text?</h2>
+                
+                <p>
+                    Data augmentation had its origins in computer vision where simple transformations can be applied to the datasets while still maintaining its main characteristics. The image of a dog, for instance, can be rotated, mirrored and even changed to gray-scale while still representing a dog. That is the goal of data augmentation - to increase the diversity of the dataset while maintaining the characteristics that are relevant for the task we are working on. Another area where DA showed good results is audio processing for speech recognition. We can change speed, pitch and add noise to the audio while maintaining its characteristics.
+                </p>
+                
+                <p>
+                    When working with text, however, data augmentation is not so simple! As we will see, there are several ways to augment text, but it can be really challenging to make sure we have not lost important characteristics of the text, like its semantics or syntactical correctness.
+                </p>
+
+                <p>
+                    Some authors<sup><a href="#ref1">1</a></sup> divide DA strategies into 3 categories: paraphrasing, noising and sampling. The paraphrasing-based methods aim at modifying the text, while maintaining its semantical meaning. The goal is to create a new text, with the same information as the original. The noising-based methods try to improve the robustness of the model adding noise to it. This can happen at a character scale - changing letters in a text - or at a word scale - changing entire words. And the sampling-based methods try to learn data distributions and sample new data from it. Each of these approaches have many different implementations.
+                </p>
+
+                <figure class="image-container">
+                    <img src="imgs/da-methods.png" alt="Figure to illustrate components of a neural text-to-sql model">
+                    <figcaption>Figure to illustrate the different methods of NLP augmentation. From the article of Bohan Li, Yutai Hou, Wanxiang Che <sup><a href="#ref1">1</a></sup></figcaption>
+                </figure>
+
+                <p>
+                    I decided to start exploring 2 paraphrasing-based methods: back-translation and language models. To start, I made naive implementations of those strategies, with the hope of gaining basic intuition and improving each implementation on the weeks to come.
+                </p>
+
+                <h2>Experimenting with back-translation</h2>
+
+                <p>
+                    Back-translation means translating a text from one language to the other and then back to the original language. The idea is that translation algorithms might make slight modifications to the text while retaining its meaning. Since translation algorithms and machine translation have improved significantly in the past decades, this approach tends to produce accurate translations, but doesn't always add much diversity to the text.
+                </p>
+
+                <p>
+                    To test back-translation, I made a simple implementation using google translator API from a python library called deep-translator. Since the goal of the research project is to augment data-sets in portuguese, I used sentences in portuguese, translated them to english and then translated them back to portuguese. Here are some examples of such translations:
+                </p>
+
+                <div class="quote">
+                    <ul>
+                        <li>
+                            <strong>Original:</strong> Quantos chefes de departamento tem mais <u>que</u> 56 anos? <br>
+                            <strong>Paraphrasis:</strong> Quantos chefes de departamento tem mais <u>de</u> 56 anos?
+                        </li>
+
+                        <li>
+                            <strong>Original:</strong> <u>Dos colégios</u> com menos de mil alunos, <u>quantos</u> têm acesso a computadores e à internet?<br>
+                            <strong>Paraphrasis:</strong> <u>Das escolas</u> com menos de mil alunos, <u>quantas</u> têm acesso a computadores e à internet?
+                        </li>
+
+                        <li>
+                            <strong>Original:</strong> Qual <u>a média</u> de anos de estudo <u>das</u> pessoas com <u>salários acima de 50 mil dólares?</u><br>
+                            <strong>Paraphrasis:</strong> Qual é <u>o número médio</u> de anos de estudo <u>para pessoas que ganham mais de US$ 50.000?</u>
+                        </li>
+                    </ul>
+                </div>
+
+                <p>
+                    All of the phrases above have their meaning preserved when translated back to the original language, with small modifications to the way they are written. A modification that we can make to try to introduce more diversity to the new sentences is to add more intermediate languages to the translation. Here are the same sentences above, but translated from portuguese to english, from english to french, and from french back to portuguese.
+                </p>
+                
+                <div class="quote">
+                    <ul>
+                        <li>
+                            <strong>Original:</strong> Quantos chefes de departamento tem mais <u>que</u> 56 anos? <br>
+                            <strong>Paraphrasis:</strong> Quantos chefes de departamento tem mais <u>de</u> 56 anos?
+                        </li>
+
+                        <li>
+                            <strong>Original:</strong> <u>Dos colégios</u> com menos de mil alunos, <ustr>quantos</u> têm acesso a computadores e à internet?<br>
+                            <strong>Paraphrasis:</strong> <u>Entre as escolas</u> com menos de mil alunos, <strong>quantos</strong> têm acesso a computadores e à Internet?
+                        </li>
+
+                        <li>
+                            <strong>Original:</strong> Qual <u>a média</u> de anos de estudo <u>das</u> pessoas com <u>salários acima de 50 mil dólares?</u><br>
+                            <strong>Paraphrasis:</strong> Qual <u>é o número médio de anos de educação</u> <u>para</u> pessoas que <u>ganham mais de US$ 50.000?</u>
+                        </li>
+                    </ul>
+                </div>
+                <p>
+                    Using more languages we seem to add more diversity to the sentences generated, but it also risks loosing precision. Notice that in the second paraphrasis of this example the translator made a grammatical error (highlighted).
+                </p>
+
+                <p>
+                    Another experiment that can be done is to try different translation algorithms. In particular, for the next weeks, I would like to try large language models to perform the translations. 
+                </p>
+
+                <h2>LLMs to augment SQL queries</h2>
+
+                <p>
+                    The second strategy I explored for data augmentation was one described in the SQL-PaLM article <sup><a href="#ref2">2</a></sup> that I mentioned in the <a href="https://felipeanibal.github.io/ml/ru01.html">last research update.</a> The authors of this paper use a Large Language Model (LLM) to generate more ground-truth SQL queries for the task of text-to-sql translation. For this experiment I used the same prompt as the authors in 3 different LLMs, but with the Natural Language question in portuguese.
+                </p>
+
+                <div class="quote">
+
+                    <p>
+                        Prompt Example:
+                
+                    </p>
+                    <p>
+                        You will be provided with a list of tables from a SQL database followed by a natural language query related to the database and the original SQL query answering the question. Your job is to understand the natural language queries and generate up to 3 different SQL queries using diverse commands from the original query while answering the question correctly. You need to make sure to use the same columns from the original query for the generated query. You will also generate a similarity score between the original and the generated query based on how closer they are syntactically.
+                    </p>
+                    <p>
+                        Database tables schema are as follows:
+                    </p>
+                
+                    <p>
+                        CREATE TABLE head (age INTEGER) <br>
+                        Question: Quantos chefes de departamento têm mais de 56 anos ? <br>
+                        Original SQL query:  <br>
+                        SELECT COUNT(*) FROM head WHERE age > 56 <br>
+                    </p>
+                
+                    <p>
+                        Output the generated queries and the similarity scores in a json list as follows: <br>
+                        [  
+                        {'sql': // generated query-1,  <br>
+                        'similarity': // similarity score (0.0-1.0) for query-1 <br>
+                    },  <br>
+                    {...}
+                    ]  <br>
+                    
+                    </p>
+                </div>
+
+                <h4>Llama 3.1 with 8 Billion Tokens</h4>
+
+                <p>
+                    First I used Llama 3.1 to perform the augmentation. The advantage of using llama is that it is free. However, the larger and better Llama models (with more tokens) require a lot of computational power. So far I have only been able to test the smaller model with 8 billion tokens. Here are the prompts that this model generated:
+                </p>
+
+                <div class="quote">
+                    <p>
+                            sql: "SELECT COUNT(*) FROM head WHERE age > 56",<br>
+
+                            similarity: 1.0,<br>
+
+                            <br>
+
+                            sql: "SELECT * FROM head WHERE age = 57 AND age > 56",<br>
+
+                            similarity: 0.75,<br>
+
+                            <br>
+
+                            sql: "SELECT COUNT(age) AS quantidadechefes FROM head WHERE age > 56",<br>
+
+                            similarity: 0.8,<br>
+                    </p>
+                </div>
+
+                <p>Notice that the first generated query is identical to the original, the second one does not correspond to the original NL query and the third one is correct. This means that out of 3 generated queries 1 corresponds to the ground-truth SQL.</p>
+        
+                <h4>GPT 4 mini</h4>
+
+                <p>
+                    Llama 3.1 8B is trained with much fewer tokens than GPT4 mini. Therefore, it was expected that GPT would produce better results. Here are the queries it generated:
+                </p>
+
+                <div class="quote">
+                    <p>
+                            sql: "SELECT COUNT(age) FROM head WHERE age > 56", <br>
+                            similarity: 0.9 <br>
+                        
+                            <br>
+                        
+                            sql: "SELECT COUNT(*) FROM head WHERE age >= 57", <br>
+                            similarity: 0.85 <br>
+
+                            <br>
+
+                            sql: "SELECT SUM(CASE WHEN age > 56 THEN 1 ELSE 0 END) FROM head", <br>
+                            similarity: 0.75 <br>
+                    </p>
+                </div>
+
+                <p>
+                    All queries generate by GPT4 mini were correct. It is worth noting that the third query uses a dialect that is not allowed in all SQL database systems.
+                </p>
+
+                <h4>Gemini 1.5 Flash</h4>
+
+                <p>
+                    Gemini Flash generate the following results:
+                </p>
+
+                <div class="quote">
+                    <p>
+                            sql: "SELECT count(*) FROM head WHERE age  >  56",<br>
+                        
+                            similarity: 1.0<br>
+
+                            <br>
+
+                            sql: "SELECT sum(CASE WHEN age > 56 THEN 1 ELSE 0 END) FROM head",<br>
+                        
+                            similarity: 0.6<br>
+
+                            <br>
+
+                            sql: "SELECT count(age) FROM head WHERE age > 56",<br>
+                        
+                            similarity: 0.8<br>
+
+                    </p>
+                </div>
+
+                <p>
+                    This model generated 3 correct queries as well, one of which is identical to the original.
+                </p>
+
+                <p>
+                    This seems to be a very promising augmentation strategy and the bigger models seem to create better results. I would like to explore other models like BERT and see if I can use bigger versions of Llama.
+                </p>
+
+                <h2>
+                    Paraphrasing with NLTK
+                </h2>
+
+                <p>
+                    Another strategy for paraphrasing is substitution for synonyms. The idea is to substitute some of the words in a sentence for synonyms. There are multiple strategies for this substitution. Again, to start, I made a naive implementation where each word is substituted by a synonym with probability p. The program gets the synonyms from Word-Net and Open Word Net (OWM) a corpus of text that includes synonyms, antonyms and other information for each word in the dataset.
+                </p>
+
+                <p>
+                    This idea produced some very good results for some sentences, but it also has many limitations. Sometimes the word substitution produces a great match. In one of the experiments the sentence "Artificial intelligence is changing the world" was changed to "Artificial intelligence is transforming the planet". This is a great result. However, in another experiment, "intelligence" was substituted by "talent" and "artificial" was substituted by "fake". This produced the sentence "Fake talent is changing the world", which completely changed the meaning of the original sentence.
+                </p>
+
+                <div class="quote">
+                    <p><strong>Original:</strong> Artificial intelligence is changing the world.</p>
+                    <p><strong>Paraphrasis:</strong> Artificial intelligence is transforming the planet.</p>
+                    <p><strong>Paraphrasis:</strong> Fake talent is changing the world.</p>
+                </div>
+
+                <p>
+                    There are other ways to make synonym substitution that might lead to better results. One possibility is to rank the word relevance in the sentence and only substitute the less important words. If we only change the less important words, the impact of that change in the sentence meaning should be smaller. This might avoid problems like the one we had above. Another strategy is to use embeddings. This involves representing the words as numeric vectors, this way we can measure the distance between two words and rank the synonyms to find the best ones to substitute a given word. For the next couple of weeks I hope to explore these techniques further.
+                </p>
+
+                <h2>
+                    LLMs to augment the natural language questions
+                </h2>
+
+                <p>
+                    After experimenting with LLMs to augment the SQL queries I decided to try LLMs to augment the NL questions. I modified the prompt used to generate SQL queries, and changed it to generate NL questions. I gave the model the same databases as before and NL questions in portuguese.
+                </p>
+
+                <p>
+                    At first I didn't specify that the new sentences generated by the model should be in portuguese. The result is that the model generated the new questions in english. The results, however, were very good!
+                </p>
+
+                <div class="quote">
+                    <p>
+                        <strong>Original:</strong> Quantos chefes de departamento tem mais que 56 anos?<br>
+                        <strong>Paraphrasis:</strong> How many department heads are over 56 years old?<br>
+                        <strong>Paraphrasis:</strong> What is the count of department heads who have ages greater than 56<br>
+                        <strong>Paraphrasis:</strong> How many people are in charge of a department and older than 56 years?
+                    </p>
+                </div>
+
+                <p>
+                    I then specified that the questions should be generated in portuguese. The result was that most of the questions changed the  meaning of the original sentence. Here are the results (translated to english by me).
+                </p>
+
+                <div class="quote">
+                    <p>
+                        <strong>Original:</strong> Quantos chefes de departamento tem mais que 56 anos?<br>
+                        <strong>Paraphrasis:</strong> Quantos funcionários têm mais de 56 anos? (translation: How many <strong>employees</strong> are older than 56)<br>
+                        <strong>Paraphrasis:</strong> Existem funcionários com idade superior a 56 anos? (Are there employees older then 56 year old?)<br>
+                        <strong>Paraphrasis:</strong> Quais são as idades dos chefes que ultrapassam 56 anos? (What are the ages of employees older than 56 years old?)
+                    </p>
+                </div>
+
+                <p>
+                    I believe that the poorer results come from the fact that the Llama model is trained primarily with an english corpus. This might make the performance worse in tasks that involve other languages. This observation, however, led to a new possibility for future experiments. Since most augmentation techniques were developed based on a corpus in english, it may be a good idea to perform the augmentation in english and later translate the results back to portuguese. This would be equivalent to combining some data augmentation strategy with back-translation and could potentially produce better results.
+                </p>
+
+                <h2>
+                    Ideas and next steps
+                </h2>
+
+                <p>
+                    In the weeks to come, I hope to continue studying DA strategies for text augmentation and applying theses strategies to the context of text-to-sql. In particular, I hope to explore back-translation with LLM models, generation of the questions using texts in english and embedding substitution. I also want to study more about LLM's like BERT and see if they can be used for synonym substitution as well. More updates soon!
+                </p>
+
+                <h2>References</h2>
+                <ol>
+                    <li id="ref1">
+                        Bohan Li, Yutai Hou, Wanxiang Che. Data augmentation approaches in natural language processing: A survey. <a href="https://arxiv.org/abs/2110.01852">https://arxiv.org/abs/2110.01852</a>
+                    </li>
+                    <li id="ref2">
+                        Ruoxi Sun, Sercan Ö. Arik, Alex Muzio, Lesly Miculicich, Satya Gundabathula, Pengcheng Yin, Hanjun Dai, Hootan Nakhost, Rajarishi Sinha, Zifeng Wang, Tomas Pfister. 2023. SQL-PaLM: Improved Large Language Model Adaptation for Text-to-SQL (extended). <a href="https://arxiv.org/abs/2306.00739">https://arxiv.org/abs/2306.00739</a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
